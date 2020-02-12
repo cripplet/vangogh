@@ -11,6 +11,6 @@ type RenderOutput struct {
 }
 
 type RenderInterface interface {
-    Generate(vangogh_proto.Blog) ([]RenderOutput, error)
+    Generate(vangogh_proto_base.Blog) ([]RenderOutput, error)
     Render([]RenderOutput) error
 }

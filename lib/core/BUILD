@@ -7,7 +7,7 @@ go_library(
     deps = [
         "//lib/api:api",
         "//lib/core/proto:core_extension_go_proto",
-        "//lib/proto:blog_go_proto",
+        "//lib/proto:base_go_proto",
     ],
 )
 

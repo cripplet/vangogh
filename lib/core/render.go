@@ -8,7 +8,7 @@ import (
 type CoreRenderer struct {
 }
 
-func (r CoreRenderer) Generate(vangogh_proto.Blog) ([]vangogh_api.RenderOutput, error) {
+func (r CoreRenderer) Generate(vangogh_proto_base.Blog) ([]vangogh_api.RenderOutput, error) {
     return []vangogh_api.RenderOutput{}, nil
 }
 

@@ -1,7 +1,7 @@
 syntax = "proto3";
 
-package vangogh.proto;
-option go_package = "vangogh_proto";
+package vangogh.proto.base;
+option go_package = "vangogh_proto_base";
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";

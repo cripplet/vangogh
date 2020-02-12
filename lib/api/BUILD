@@ -5,7 +5,7 @@ go_binary(
     srcs = ["generate.go"],
     importpath = "github.com/cripplet/vangogh",
     deps = [
-        "//lib/proto:blog_go_proto",
+        "//lib/proto:base_go_proto",
         "@com_github_golang_protobuf//proto:go_default_library",
     ],
 )
@@ -15,7 +15,7 @@ go_library(
     srcs = ["api.go"],
     importpath = "github.com/cripplet/vangogh/api",
     deps = [
-        "//lib/proto:blog_go_proto",
+        "//lib/proto:base_go_proto",
         "@com_github_golang_protobuf//proto:go_default_library",
     ],
     visibility = ["//visibility:public"],
