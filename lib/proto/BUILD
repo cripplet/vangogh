@@ -12,6 +12,6 @@ proto_library(
 
 go_proto_library(
     name = "blog_go_proto",
-    importpath = "github.com/cripplet/vangogh",
+    importpath = "github.com/cripplet/vangogh/proto",
     proto = ":blog_proto",
 )
