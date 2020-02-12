@@ -18,4 +18,5 @@ go_library(
         "//lib/proto:blog_go_proto",
         "@com_github_golang_protobuf//proto:go_default_library",
     ],
+    visibility = ["//visibility:public"],
 )
