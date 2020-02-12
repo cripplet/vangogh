@@ -11,7 +11,9 @@ func main() {
     b := &vpb.Blog{
         Posts: []*vpb.Post{
             {
-                RenderCategory: vpb.RenderCategory_RENDER_CATEGORY_TEXT,
+                Metadata: &vpb.PostMetadata{
+                    RenderCategory: vpb.RenderCategoryEnum_RENDER_CATEGORY_TEXT,
+                },
             },
         },
     }

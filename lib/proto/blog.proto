@@ -25,7 +25,7 @@ message Post {
   PostData data = 2;
 };
 
-enum RenderCategory {
+enum RenderCategoryEnum {
   RENDER_CATEGORY_UNSPECIFIED = 0;
   RENDER_CATEGORY_TEXT = 1;
   RENDER_CATEGORY_PHOTO = 2;
@@ -36,7 +36,7 @@ message PostMetadata {
   string title = 2;
   string author = 3;
   repeated string tags = 4;
-  RenderCategory render_category = 5;
+  RenderCategoryEnum render_category = 5;
 
   VangoghExtension extension = 6;
 };

@@ -1,4 +1,4 @@
-package vangogh_render
+package vangogh_core_render
 
 import (
     "github.com/cripplet/vangogh/api"
