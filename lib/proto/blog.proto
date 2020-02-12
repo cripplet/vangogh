@@ -3,7 +3,13 @@ syntax = "proto3";
 package vangogh.proto;
 option go_package = "vangogh_proto";
 
+import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
+
+message VangoghExtension {
+  string name = 1;
+  google.protobuf.Any extension = 2;
+};
 
 message Blog {
   BlogMetadata metadata = 1;
@@ -11,12 +17,12 @@ message Blog {
 };
 
 message BlogMetadata {
+  VangoghExtension extension = 1;
 };
 
 message Post {
-  RenderCategory render_category = 1;
-  PostMetadata metadata = 2;
-  PostData data = 3;
+  PostMetadata metadata = 1;
+  PostData data = 2;
 };
 
 enum RenderCategory {
@@ -30,9 +36,14 @@ message PostMetadata {
   string title = 2;
   string author = 3;
   repeated string tags = 4;
+  RenderCategory render_category = 5;
+
+  VangoghExtension extension = 6;
 };
 
 message PostData {
   string photo_url = 1;
   string text = 2;
+
+  VangoghExtension extension = 3;
 };
