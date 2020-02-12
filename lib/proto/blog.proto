@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package vangogh;
+option go_package = "vangogh";
+
+import "google/protobuf/timestamp.proto";
+
+message Blog {
+  Metadata metadata = 1;
+  repeated Post posts = 2;
+};
+
+message Metadata {
+};
+
+enum RenderCategory {
+  RENDER_CATEGORY_UNSPECIFIED = 0;
+  RENDER_CATEGORY_TEXT = 1;
+  RENDER_CATEGORY_PHOTO = 2;
+};
+
+message Post {
+  RenderCategory render_category = 1;
+  google.protobuf.Timestamp publish_timestamp = 2;
+  repeated string tags = 3;
+  string author = 4;
+  string photo = 5;
+  string text = 6;
+};
