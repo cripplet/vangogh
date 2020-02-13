@@ -1,0 +1,42 @@
+metadata: <
+>
+
+posts: <
+  metadata: <
+    publish_timestamp: <
+        # Jan. 1, 2000
+        seconds: 946684800
+    >
+    title: "Some Cool Title"
+    author: "Bob Loblaw"
+    tags: "intro"
+    tags: "example"
+  >
+  data: <
+    photo_url: "http://example.com/some/cool/picture.jpg"
+    text: "Some cool blog post."
+  >
+>
+
+posts: <
+  metadata: <
+    publish_timestamp: <
+        # Jan. 2, 2000
+        seconds: 946771200
+    >
+    title: "Tree Law: Don't"
+    author: "Bob Loblaw"
+    tags: "example"
+    tags: "tree-law"
+    extension: <
+      name: "post_metadata_extension"
+      extension: <
+        value: "some-byte-data"
+      >
+    >
+  >
+  data: <
+    photo_url: "http://example.com/some/second/cool/picture.jpg"
+    text: "Just don't."
+  >
+>
