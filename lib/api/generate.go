@@ -2,7 +2,7 @@ package main
 
 import (
     "fmt"
-    vpb "github.com/cripplet/vangogh/proto"
+    vpb "github.com/cripplet/vangogh/api/proto"
     pb "github.com/golang/protobuf/proto"
 )
 

@@ -1,0 +1,20 @@
+{{define "footer"}}
+  <footer>
+    <p>
+      Copyright 2016 Calhoun.io
+    </p>
+    <p>
+      Contact information: <a href="mailto:jon@calhoun.io">jon@calhoun.io</a>.
+    </p>
+  </footer>
+{{end}}
+
+{{range .Widgets}}
+  <code>{{.}}</code>
+  <div class="widget">
+    <h3 class="name">{{.Name}}</h3>
+    <span class="price">${{.Price}}</span>
+  </div>
+{{end}}
+
+{{template "footer"}}

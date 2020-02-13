@@ -6,7 +6,7 @@ proto_library(
     name = "core_extension_proto",
     srcs = ["core_extension.proto"],
     deps = [
-        "//lib/proto:base_proto",
+        "//lib/api/proto:base_proto",
     ],
 )
 
@@ -15,6 +15,6 @@ go_proto_library(
     importpath = "github.com/cripplet/vangogh/core/proto",
     proto = ":core_extension_proto",
     deps = [
-        "//lib/proto:base_go_proto",
+        "//lib/api/proto:base_go_proto",
     ],
 )

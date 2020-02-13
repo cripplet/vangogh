@@ -13,6 +13,6 @@ proto_library(
 
 go_proto_library(
     name = "base_go_proto",
-    importpath = "github.com/cripplet/vangogh/proto",
+    importpath = "github.com/cripplet/vangogh/api/proto",
     proto = ":base_proto",
 )

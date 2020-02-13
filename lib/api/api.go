@@ -2,7 +2,7 @@ package vangogh_api
 
 import (
     "io"
-    "github.com/cripplet/vangogh/proto"
+    "github.com/cripplet/vangogh/api/proto"
 )
 
 type RenderOutput struct {
@@ -11,6 +11,6 @@ type RenderOutput struct {
 }
 
 type RenderInterface interface {
-    Generate(vangogh_proto_base.Blog) ([]RenderOutput, error)
+    Generate(vangogh_api_proto_base.Blog) ([]RenderOutput, error)
     Render([]RenderOutput) error
 }

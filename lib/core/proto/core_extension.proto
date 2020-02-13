@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package vangogh.proto.core;
-option go_package = "vangogh_proto_core";
+package vangogh.core.proto;
+option go_package = "vangogh_core_proto";
 
-import "lib/proto/base.proto";
+import "lib/api/proto/base.proto";
 
 message PostMetadataExtension {
   bool is_static = 1;
-  vangogh.proto.base.VangoghExtension extension = 2;
+  vangogh.api.proto.base.VangoghExtension extension = 2;
 }

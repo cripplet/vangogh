@@ -2,13 +2,13 @@ package vangogh_core_render
 
 import (
     "github.com/cripplet/vangogh/api"
-    "github.com/cripplet/vangogh/proto"
+    "github.com/cripplet/vangogh/api/proto"
 )
 
 type CoreRenderer struct {
 }
 
-func (r CoreRenderer) Generate(vangogh_proto_base.Blog) ([]vangogh_api.RenderOutput, error) {
+func (r CoreRenderer) Generate(vangogh_api_proto_base.Blog) ([]vangogh_api.RenderOutput, error) {
     return []vangogh_api.RenderOutput{}, nil
 }
 
