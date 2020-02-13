@@ -7,5 +7,15 @@ import "lib/api/proto/base.proto";
 
 message PostMetadataExtension {
   bool is_static = 1;
-  vangogh.api.proto.base.VangoghExtension extension = 2;
-}
+  RenderCategoryEnum render_category = 2;
+
+  reserved 3 to 99;
+
+  vangogh.api.proto.base.VangoghExtension extension = 100;
+};
+
+enum RenderCategoryEnum {
+  RENDER_CATEGORY_UNSPECIFIED = 0;
+  RENDER_CATEGORY_TEXT = 1;
+  RENDER_CATEGORY_PHOTO = 2;
+};

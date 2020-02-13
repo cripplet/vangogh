@@ -12,7 +12,6 @@ func main() {
         Posts: []*vpb.Post{
             {
                 Metadata: &vpb.PostMetadata{
-                    RenderCategory: vpb.RenderCategoryEnum_RENDER_CATEGORY_TEXT,
                 },
             },
         },
