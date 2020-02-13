@@ -1,45 +1,41 @@
 package main
 
 import (
-  "html/template"
+  "io"
+  "io/ioutil"
   "net/http"
+  "github.com/cripplet/vangogh/core/render"
+  vpb "github.com/cripplet/vangogh/api/proto"
+  "github.com/golang/protobuf/proto"
 )
 
-var testTemplate *template.Template
-
-type Widget struct {
-  Name  string
-  Price int
-}
-
-type ViewData struct {
-  Name    string
-  Widgets []Widget
-}
-
 func main() {
-  var err error
-  testTemplate, err = template.ParseFiles("lib/core/template/hello.gohtml")
-  if err != nil {
-    panic(err)
-  }
-
   http.HandleFunc("/", handler)
   http.ListenAndServe("0.0.0.0:8000", nil)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-  w.Header().Set("Content-Type", "text/html")
-
-  err := testTemplate.Execute(w, ViewData{
-    Name: "John Smith",
-    Widgets: []Widget{
-      Widget{"Blue Widget", 12},
-      Widget{"Red Widget", 12},
-      Widget{"Green Widget", 12},
-    },
-  })
+  data, err := ioutil.ReadFile("lib/api/proto/testdata/example.textpb")
   if err != nil {
     http.Error(w, err.Error(), http.StatusInternalServerError)
+    return
+  }
+  pb := vpb.Blog{}
+  err = proto.UnmarshalText(string(data), &pb)
+  if err != nil {
+    http.Error(w, err.Error(), http.StatusInternalServerError)
+    return
+  }
+  directory, err := vangogh_core_render.VangoghGenerate(pb)
+  if err != nil {
+    http.Error(w, err.Error(), http.StatusInternalServerError)
+    return
+  }
+
+  w.Header().Set("Content-Type", "text/html")
+  _, err = io.Copy(w, directory[""])
+  if err != nil {
+    http.Error(w, err.Error(), http.StatusInternalServerError)
+    return
   }
 }

@@ -1,0 +1,29 @@
+<!--
+  Root HTML template. Expects as input a vangogh.api.proto.Blog object.
+ -->
+
+<!--
+  Placeholder templates.
+  TODO(minkezhang): Implement these.
+ -->
+
+{{- define "header" -}}{{- end -}}
+{{- define "body" -}}{{- template "content" -}}{{- end -}}
+{{- define "footer" -}}{{- end -}}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+  <title>Vangogh</title>
+  <!-- TODO(minkezhang): Add imports here. -->
+</head>
+
+<body>
+  {{- template "header" . -}}
+  {{- template "body" . -}}
+  {{- template "footer" . -}}
+</body>
+
+</html> 

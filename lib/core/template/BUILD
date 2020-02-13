@@ -1,7 +1,7 @@
 filegroup(
     name = "templates",
     srcs = glob([
-            "*.gohtml",
+            "**/*.gohtml",
         ]),
     visibility = ["//visibility:public"],
 )

@@ -5,7 +5,7 @@ go_library(
     srcs = ["render.go"],
     importpath = "github.com/cripplet/vangogh/core/render",
     deps = [
-        "//lib/api:api",
+        # "//lib/api:api",
         "//lib/api/proto:base_go_proto",
         "//lib/core/proto:core_extension_go_proto",
     ],
@@ -16,8 +16,12 @@ go_binary(
     srcs = ["main.go"],
     importpath = "github.com/cripplet/vangogh/core/main",
     data = [
+        "//lib/api/proto/testdata:testdata",
         "//lib/core/template:templates",
     ],
     deps = [
+        ":render",
+        "//lib/api/proto:base_go_proto",
+        "@com_github_golang_protobuf//proto:go_default_library",
     ],
 )
