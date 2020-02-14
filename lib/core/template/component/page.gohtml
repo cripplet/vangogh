@@ -1,12 +1,19 @@
 <!--
-  Root HTML template. Expects as input a vangogh.api.proto.Blog object.
+  Root HTML template. Expects as input a struct of type
+
+  {
+    Blog vangogh_api_proto.Blog
+    Content interface{}
+  }
+
+  The page should not attempt to access Content, which will be the sole
+  argument passed into the "content" template.
  -->
 
 <!--
   Placeholder templates.
   TODO(minkezhang): Implement these.
  -->
-
 {{- define "header" -}}{{- end -}}
 {{- define "body" -}}{{- template "content" .Content -}}{{- end -}}
 {{- define "footer" -}}{{- end -}}
