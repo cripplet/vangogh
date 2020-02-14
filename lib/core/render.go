@@ -37,7 +37,7 @@ func generatePost(pb vpb.Post) (string, io.Reader, error) {
   if err != nil {
     return "", nil, err
   }
-  return "", strings.NewReader(b.String()), nil
+  return "/", strings.NewReader(b.String()), nil
 }
 
 func getComponentFiles() ([]string, error) {

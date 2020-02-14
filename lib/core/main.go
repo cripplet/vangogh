@@ -15,6 +15,8 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
+  w.Header().Set("Content-Type", "text/html")
+
   data, err := ioutil.ReadFile("lib/api/proto/testdata/example.textpb")
   if err != nil {
     http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -32,8 +34,14 @@ func handler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  w.Header().Set("Content-Type", "text/html")
-  _, err = io.Copy(w, directory[""])
+  reader, is_found := directory[r.URL.Path]
+  // TODO(minkezhang): Make this configurable as a page.
+  if !is_found {
+    http.Error(w, "404 NOT FOUND", http.StatusNotFound)
+    return
+  }
+
+  _, err = io.Copy(w, reader)
   if err != nil {
     http.Error(w, err.Error(), http.StatusInternalServerError)
     return
