@@ -11,7 +11,7 @@ message PostMetadataExtension {
 
   reserved 3 to 99;
 
-  vangogh.api.proto.base.VangoghExtension extension = 100;
+  vangogh.api.proto.VangoghExtension extension = 100;
 };
 
 enum RenderCategoryEnum {

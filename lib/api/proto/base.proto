@@ -1,14 +1,21 @@
+/**
+ * Base proto definition for a blog.
+ *
+ * Fields included in the proto here refer to specifically
+ * the content of the blog. Fields here explicitly do not have any
+ * associated data which refer to how the content should be
+ * displayed.
+ */
 syntax = "proto3";
 
-package vangogh.api.proto.base;
-option go_package = "vangogh_api_proto_base";
+package vangogh.api.proto;
+option go_package = "vangogh_api_proto";
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
 message VangoghExtension {
-  string name = 1;
-  google.protobuf.Any extension = 2;
+  google.protobuf.Any extension = 1;
 };
 
 message Blog {
@@ -17,7 +24,9 @@ message Blog {
 };
 
 message BlogMetadata {
-  reserved 1 to 99;
+  string language = 1;
+
+  reserved 2 to 99;
 
   VangoghExtension extension = 100;
 };
@@ -29,11 +38,13 @@ message Post {
 
 message PostMetadata {
   google.protobuf.Timestamp publish_timestamp = 1;
-  string title = 2;
-  string author = 3;
-  repeated string tags = 4;
+  google.protobuf.Timestamp modified_timestamp = 2;
+  string title = 3;
+  repeated string authors = 4;
+  repeated string tags = 5;
+  string language = 6;
 
-  reserved 5 to 99;
+  reserved 7 to 99;
 
   VangoghExtension extension = 100;
 };

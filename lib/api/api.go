@@ -11,7 +11,7 @@ type RenderOutput struct {
 }
 
 type RenderInterface interface {
-    Generate(vangogh_api_proto_base.Blog) ([]RenderOutput, error)
+    Generate(vangogh_api_proto.Blog) ([]RenderOutput, error)
     Render([]RenderOutput) error
 }
 
@@ -20,10 +20,10 @@ type VangoghURLMap struct {
 }
 
 type VangoghPageWriter interface {
-    WritePage(vangogh_api_proto_base.BlogMetadata
+    WritePage(vangogh_api_proto.BlogMetadata
 }
 
 type VangoghRenderer interface {
     
-    GeneratePages(vangogh_api_proto_base.Blog) ([]VangoghPageWriter, error)
+    GeneratePages(vangogh_api_proto.Blog) ([]VangoghPageWriter, error)
 }

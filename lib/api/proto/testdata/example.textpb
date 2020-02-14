@@ -8,7 +8,7 @@ posts: <
         seconds: 946684800
     >
     title: "Some Cool Title"
-    author: "Bob Loblaw"
+    authors: "Bob Loblaw"
     tags: "intro"
     tags: "example"
   >
@@ -25,11 +25,11 @@ posts: <
         seconds: 946771200
     >
     title: "Tree Law: Don't"
-    author: "Bob Loblaw"
+    authors: "Bob Loblaw"
+    authors: "Barry Zuckerkorn"
     tags: "example"
     tags: "tree-law"
     extension: <
-      name: "post_metadata_extension"
       extension: <
         value: "some-byte-data"
       >
