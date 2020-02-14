@@ -2,17 +2,18 @@ package vangogh_core_render
 
 import (
   "fmt"
-  "time"
-  "net/url"
   "html/template"
   "io"
+  "net/url"
   "path/filepath"
   "regexp"
   "strings"
+  "time"
+
   vpb "github.com/cripplet/vangogh/api/proto"
+  "github.com/golang/protobuf/proto"
   "github.com/golang/protobuf/ptypes"
   "github.com/golang/protobuf/ptypes/any"
-  "github.com/golang/protobuf/proto"
 )
 
 type ViewPostData struct {
@@ -41,13 +42,28 @@ func VangoghGenerate(pb vpb.Blog) (map[string]io.Reader, error) {
   return directory, nil
 }
 
+func formatTitlePath(t time.Time, title string) (string, error) {
+  r, err := regexp.Compile("[^a-zA-Z0-9\\-]+")
+  if err != nil {
+    return "", err
+  }
+
+  return fmt.Sprintf(
+      "/posts/%s/%s/",
+      t.Format("2006/01/02"),
+      url.QueryEscape(
+          r.ReplaceAllString(
+              strings.ReplaceAll(
+                  strings.ToLower(title), " ", "-"), ""))), nil
+}
+
 func generatePost(v ViewPostData) (string, io.Reader, error) {
   f, err := getComponentFiles()
   if err != nil {
     return "", nil, err
   }
   b := strings.Builder{}
-  f = append(f, "lib/core/template/view/text_post.gohtml")
+  f = append(f, "lib/core/template/view/post.gohtml")
   t, err := template.ParseFiles(f...)
   if err != nil {
     return "", nil, err
@@ -62,12 +78,14 @@ func generatePost(v ViewPostData) (string, io.Reader, error) {
   if err != nil {
     return "", nil, err
   }
-  pt := time.Unix(v.Content.Metadata.PublishTimestamp.Seconds, int64(v.Content.Metadata.PublishTimestamp.Nanos))
-  r, err := regexp.Compile("[^a-zA-Z0-9\\-]+")
+
+  pt := time.Unix(
+      v.Content.Metadata.PublishTimestamp.Seconds,
+      int64(v.Content.Metadata.PublishTimestamp.Nanos))
+  path, err := formatTitlePath(pt, v.Content.Metadata.Title)
   if err != nil {
     return "", nil, err
   }
-  path := "/posts/" + pt.Format("2006/01/02") + "/" + url.QueryEscape(r.ReplaceAllString(strings.ReplaceAll(strings.ToLower(v.Content.Metadata.Title), " ", "-"), ""))
   fmt.Println(path)
   return path, strings.NewReader(b.String()), nil
 }

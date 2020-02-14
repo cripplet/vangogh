@@ -5,8 +5,9 @@ import (
   "io"
   "io/ioutil"
   "net/http"
-  "github.com/cripplet/vangogh/core/render"
+
   vpb "github.com/cripplet/vangogh/api/proto"
+  "github.com/cripplet/vangogh/core/render"
   "github.com/golang/protobuf/proto"
 )
 
