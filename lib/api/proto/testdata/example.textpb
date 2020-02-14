@@ -1,8 +1,10 @@
 metadata: <
+  language: "en"
 >
 
 posts: <
   metadata: <
+    language: "en"
     publish_timestamp: <
         # Jan. 1, 2000
         seconds: 946684800
@@ -27,11 +29,13 @@ posts: <
     title: "Tree Law: Don't"
     authors: "Bob Loblaw"
     authors: "Barry Zuckerkorn"
+    language: "en"
     tags: "example"
     tags: "tree-law"
     extension: <
       extension: <
-        value: "some-byte-data"
+        type_url: "github.com/cripplet/vangogh/vangogh.core.proto.PostMetadataExtension"
+        value: ""
       >
     >
   >

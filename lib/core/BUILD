@@ -8,6 +8,10 @@ go_library(
         # "//lib/api:api",
         "//lib/api/proto:base_go_proto",
         "//lib/core/proto:core_extension_go_proto",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_github_golang_protobuf//ptypes:go_default_library",
+        # Import the any.Any type from here instead of //ptypes/any.
+        "@io_bazel_rules_go//proto/wkt:any_go_proto",
     ],
 )
 
