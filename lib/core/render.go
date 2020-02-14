@@ -74,7 +74,7 @@ func generatePost(v ViewPostData) (string, io.Reader, error) {
     },
   )
 
-  err = t.Execute(&b, v)
+  err = t.ExecuteTemplate(&b, "page", v)
   if err != nil {
     return "", nil, err
   }

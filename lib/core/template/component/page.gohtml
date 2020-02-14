@@ -18,13 +18,18 @@
 {{- define "body" -}}{{- template "content" .Content -}}{{- end -}}
 {{- define "footer" -}}{{- end -}}
 
+{{- define "page" -}}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 <meta charset="UTF-8">
   <title>Vangogh</title>
-  <!-- TODO(minkezhang): Add imports here. -->
+  <!--
+    TODO(minkezhang): Add imports here.
+
+    Look into https://getmdl.io.
+   -->
 </head>
 
 <body>
@@ -34,3 +39,4 @@
 </body>
 
 </html> 
+{{- end -}}
