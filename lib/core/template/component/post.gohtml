@@ -26,8 +26,7 @@
 
       {{- with $postMetadata.Location -}}
         <div class="row">
-        <div class="col s1"><i class="fas fa-map-marker-alt"></i></div>
-        <div class="col s11"><div class="chip">{{- . -}}</div></div>
+          <div class="col s12"><i class="fas fa-map-marker-alt" style="margin-right: 8px"></i>{{- . -}}</div>
         </div>
       {{- end -}}
 
@@ -47,17 +46,16 @@
 
       {{- if (or (or (or $postMetadata.Camera $postMetadata.Lens) $postMetadata.Filters) $postMetadata.Film) -}}
         <div class="row">
-        <div class="col s1"><i class="fas fa-camera"></i></div>
-        <div class="col s11">
-        {{- with $postMetadata.Camera -}}<div class="chip">{{- . -}}</div>{{- end -}}
-        {{- with $postMetadata.Lens -}}<div class="chip">{{- . -}}</div>{{- end -}}
-        {{- with $postMetadata.Filters -}}
-          {{- range . -}}
-            <div class="chip">{{- . -}}</div>
-          {{- end -}}
-        {{- end -}}
-        {{- with $postMetadata.Film -}}<div class="chip">{{- . -}}</div>{{- end -}}
-        </div>
+          <div class="col s12"><i class="fas fa-camera" style="margin-right: 8px"></i>
+            {{- with $postMetadata.Camera -}}{{- . -}}{{- end -}}
+            {{- with $postMetadata.Lens -}}{{- . -}}{{- end -}}
+            {{- with $postMetadata.Filters -}}
+              {{- range . -}}
+                {{- . -}}
+              {{- end -}}
+            {{- end -}}
+            {{- with $postMetadata.Film -}}{{- . -}}{{- end -}}
+          </div>
         </div>
       {{- end -}}
     {{- end -}}
@@ -70,10 +68,9 @@
 
     {{- with .Metadata.Tags -}}
       <div class="row">
-        <div class="col s1"><i class="fas fa-tags"></i></div>
-        <div class="col s11">
+        <div class="col s12"><i class="fas fa-tags" style="margin-right: 8px"></i>
           {{- range . -}}
-            <div class="chip">{{- . -}}</div>
+            {{- . -}}
           {{- end -}}
         </div>
       </div>
