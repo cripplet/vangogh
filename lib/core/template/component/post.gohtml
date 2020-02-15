@@ -1,0 +1,56 @@
+<!--
+  Expected context is a vangogh_api_proto.Post instance.
+ -->
+
+{{- define "post" -}}
+
+{{- if .Metadata.Title -}}
+<div class="row">
+<div class="col s12">
+<h2>{{- .Metadata.Title -}}</h2>
+</div>
+</div>
+{{- end -}}
+
+{{- if .Metadata.PublishTimestamp -}}
+<div class="row">
+<div class="col s12">
+{{- formatTime "January 02, 2006 15:04 MST" .Metadata.PublishTimestamp -}}
+</div>
+</div>
+{{- end -}}
+
+{{- if .Data.PhotoUrl -}}
+<div class="row">
+<div class="col s12">
+<!--
+  TODO(minkezhang): Make this functional.
+  See https://stackoverflow.com/a/40538410,
+      https://stackoverflow.com/a/34726863
+ -->
+<div class="progress"><div class="indeterminate"></div></div>
+<img class="responsive-img" src="{{- .Data.PhotoUrl -}}" />
+</div>
+</div>
+{{- end -}}
+
+{{- if .Data.Text -}}
+<div class="row">
+<div class="col s12">
+{{- .Data.Text -}}
+</div>
+</div>
+{{- end -}}
+
+{{- if .Metadata.Tags -}}
+<div class="row">
+<div class="col s12">
+<i class="fas fa-tags" style="margin-right: 8px"></i>
+{{- range .Metadata.Tags -}}
+  <div class="chip">{{- . -}}</div>
+{{- end -}}
+</div>
+</div>
+{{- end -}}
+
+{{- end -}}

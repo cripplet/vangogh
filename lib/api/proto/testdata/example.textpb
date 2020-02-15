@@ -15,7 +15,7 @@ posts: <
     tags: "example"
   >
   data: <
-    photo_url: "http://example.com/some/cool/picture.jpg"
+    photo_url: "https://storage.blogzhang.com/photography/processed/0037-086.jpg"
     text: "Some cool blog post."
   >
 >

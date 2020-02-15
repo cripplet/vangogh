@@ -14,6 +14,7 @@ import (
   "github.com/golang/protobuf/proto"
   "github.com/golang/protobuf/ptypes"
   "github.com/golang/protobuf/ptypes/any"
+  "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 type ViewPostData struct {
@@ -26,6 +27,11 @@ func deserializeAnyProto(pb *any.Any) proto.Message {
   var p ptypes.DynamicAny
   ptypes.UnmarshalAny(pb, &p)
   return p.Message
+}
+
+func formatTime(f string, pb timestamp.Timestamp) string {
+  t := time.Unix(pb.Seconds, int64(pb.Nanos))
+  return t.Format(f)
 }
 
 func VangoghGenerate(pb vpb.Blog) (map[string]io.Reader, error) {
@@ -42,7 +48,7 @@ func VangoghGenerate(pb vpb.Blog) (map[string]io.Reader, error) {
   return directory, nil
 }
 
-func formatTitlePath(t time.Time, title string) (string, error) {
+func formatTitlePath(t timestamp.Timestamp, title string) (string, error) {
   r, err := regexp.Compile("[^a-zA-Z0-9\\-]+")
   if err != nil {
     return "", err
@@ -50,7 +56,7 @@ func formatTitlePath(t time.Time, title string) (string, error) {
 
   return fmt.Sprintf(
       "/posts/%s/%s/",
-      t.Format("2006/01/02"),
+      formatTime("2006/01/02", t),
       url.QueryEscape(
           r.ReplaceAllString(
               strings.ReplaceAll(
@@ -64,25 +70,23 @@ func generatePost(v ViewPostData) (string, io.Reader, error) {
   }
   b := strings.Builder{}
   f = append(f, "lib/core/template/view/post.gohtml")
-  t, err := template.ParseFiles(f...)
+  t, err := template.New("").Funcs(
+    template.FuncMap{
+      "deserialize": deserializeAnyProto,
+      "formatTime": formatTime,
+    },
+  ).ParseFiles(f...)
   if err != nil {
     return "", nil, err
   }
-  t.Funcs(
-    template.FuncMap{
-      "deserialize": deserializeAnyProto,
-    },
-  )
+
 
   err = t.ExecuteTemplate(&b, "page", v)
   if err != nil {
     return "", nil, err
   }
 
-  pt := time.Unix(
-      v.Content.Metadata.PublishTimestamp.Seconds,
-      int64(v.Content.Metadata.PublishTimestamp.Nanos))
-  path, err := formatTitlePath(pt, v.Content.Metadata.Title)
+  path, err := formatTitlePath(*v.Content.Metadata.PublishTimestamp, v.Content.Metadata.Title)
   if err != nil {
     return "", nil, err
   }

@@ -15,7 +15,13 @@
   TODO(minkezhang): Implement these.
  -->
 {{- define "header" -}}{{- end -}}
-{{- define "body" -}}{{- template "content" .Content -}}{{- end -}}
+
+{{- define "body" -}}
+  <div class="container" style="background: red">
+  {{- template "content" .Content -}}
+  </div>
+{{- end -}}
+
 {{- define "footer" -}}{{- end -}}
 
 {{- define "page" -}}
@@ -23,19 +29,32 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-  <title>Vangogh</title>
-  <!--
-    TODO(minkezhang): Add imports here.
 
-    Look into https://getmdl.io.
-   -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css" />
+<link href="//use.fontawesome.com/releases/v5.12.1/css/all.css" rel="stylesheet" type="text/css" />
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet" type="text/css" />
+
+<style>
+  body {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
+  }
+</style>
+
+<title>Vangogh</title>
+
 </head>
 
 <body>
   {{- template "header" . -}}
   {{- template "body" . -}}
   {{- template "footer" . -}}
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 
 </html> 

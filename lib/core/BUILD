@@ -12,6 +12,7 @@ go_library(
         "@com_github_golang_protobuf//ptypes:go_default_library",
         # Import the any.Any type from here instead of //ptypes/any.
         "@io_bazel_rules_go//proto/wkt:any_go_proto",
+        "@io_bazel_rules_go//proto/wkt:timestamp_go_proto",
     ],
 )
 
