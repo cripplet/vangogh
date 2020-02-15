@@ -32,7 +32,7 @@
             https://stackoverflow.com/a/34726863
        -->
       <div class="progress"><div class="indeterminate"></div></div>
-      <img class="responsive-img" src="{{- . -}}" />
+      <img class="responsive-img" src="{{- . -}}" alt="" />
       </div>
       </div>
     {{- end -}}
@@ -57,21 +57,25 @@
       <div class="row">
       <div class="col s1"><i class="fas fa-map-marker-alt"></i></div>
       <div class="col s11"><div class="chip">{{- . -}}</div></div>
+      </div>
     {{- end -}}
   {{- end -}}
 
   {{- with .Data.Text -}}
-    <div class="row"><div class="col s12">{{- . -}}</div></div>
+    <div class="row">
+      <div class="col s12">{{- . -}}</div>
+    </div>
   {{- end -}}
 
   {{- with .Metadata.Tags -}}
     <div class="row">
-    <div class="col s1"><i class="fas fa-tags"></i></div>
-    <div class="col s11">
-      {{- range . -}}
-        <div class="chip">{{- . -}}</div>
-      {{- end -}}
-    </div></div>
+      <div class="col s1"><i class="fas fa-tags"></i></div>
+      <div class="col s11">
+        {{- range . -}}
+          <div class="chip">{{- . -}}</div>
+        {{- end -}}
+      </div>
+    </div>
   {{- end -}}
 
 {{- end -}}
