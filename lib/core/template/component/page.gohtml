@@ -17,9 +17,7 @@
 {{- define "header" -}}{{- end -}}
 
 {{- define "body" -}}
-  <div class="container" style="background: red">
-  {{- template "content" .Content -}}
-  </div>
+  <div class="container">{{- template "content" .Content -}}</div>
 {{- end -}}
 
 {{- define "footer" -}}{{- end -}}
