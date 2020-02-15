@@ -13,9 +13,14 @@ posts: <
     authors: "Bob Loblaw"
     tags: "intro"
     tags: "example"
+    extension: <
+      extension: <
+        type_url: "github.com/cripplet/vangogh/vangogh.core.proto.PostMetadataExtension"
+        value: "\010\002\022@https://storage.blogzhang.com/photography/processed/0037-086.jpg\032\rMinolta X-700\"\02317mm f4 MD W.Rokkor*\031Nisi 3 Stop Hard Edge GND2\tVelvia 50:\007Seattle"
+      >
+    >
   >
   data: <
-    photo_url: "https://storage.blogzhang.com/photography/processed/0037-086.jpg"
     text: "Some cool blog post."
   >
 >
@@ -32,15 +37,8 @@ posts: <
     language: "en"
     tags: "example"
     tags: "tree-law"
-    extension: <
-      extension: <
-        type_url: "github.com/cripplet/vangogh/vangogh.core.proto.PostMetadataExtension"
-        value: ""
-      >
-    >
   >
   data: <
-    photo_url: "http://example.com/some/second/cool/picture.jpg"
     text: "Just don't."
   >
 >

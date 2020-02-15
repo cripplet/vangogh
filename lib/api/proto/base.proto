@@ -50,10 +50,9 @@ message PostMetadata {
 };
 
 message PostData {
-  string photo_url = 1;
-  string text = 2;
+  string text = 1;
 
-  reserved 3 to 99;
+  reserved 2 to 99;
 
   VangoghExtension extension = 100;
 };

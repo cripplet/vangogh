@@ -8,9 +8,9 @@ import (
   "path/filepath"
   "regexp"
   "strings"
-  "time"
 
   vpb "github.com/cripplet/vangogh/api/proto"
+  vpbc "github.com/cripplet/vangogh/core/proto"
   "github.com/golang/protobuf/proto"
   "github.com/golang/protobuf/ptypes"
   "github.com/golang/protobuf/ptypes/any"
@@ -29,9 +29,36 @@ func deserializeAnyProto(pb *any.Any) proto.Message {
   return p.Message
 }
 
-func formatTime(f string, pb timestamp.Timestamp) string {
-  t := time.Unix(pb.Seconds, int64(pb.Nanos))
-  return t.Format(f)
+func formatTime(f string, pb timestamp.Timestamp) (string, error) {
+  t, err := ptypes.Timestamp(&pb)
+  if err != nil {
+    return "", err
+  }
+
+  return t.Format(f), nil
+}
+
+func tempGenerateAnyProto() string {
+  p := vpbc.PostMetadataExtension{
+    RenderCategory: vpbc.RenderCategoryEnum_RENDER_CATEGORY_PHOTO,
+    PhotoUrl: "https://storage.blogzhang.com/photography/processed/0037-086.jpg",
+    Camera: "Minolta X-700",
+    Lens: "17mm f4 MD W.Rokkor",
+    Filters: []string{
+        "Nisi 3 Stop Hard Edge GND",
+    },
+    Film: "Velvia 50",
+    Location: "Seattle",
+  }
+
+  a, err := ptypes.MarshalAny(&p)
+  if err != nil {
+    panic(err)
+  }
+  fmt.Println(a)
+  fmt.Println(deserializeAnyProto(a))
+
+  return proto.MarshalTextString(a)
 }
 
 func VangoghGenerate(pb vpb.Blog) (map[string]io.Reader, error) {
@@ -54,9 +81,14 @@ func formatTitlePath(t timestamp.Timestamp, title string) (string, error) {
     return "", err
   }
 
+  s, err := formatTime("2006/01/02", t)
+  if err != nil {
+    return "", err
+  }
+
   return fmt.Sprintf(
       "/posts/%s/%s/",
-      formatTime("2006/01/02", t),
+      s,
       url.QueryEscape(
           r.ReplaceAllString(
               strings.ReplaceAll(
@@ -86,7 +118,9 @@ func generatePost(v ViewPostData) (string, io.Reader, error) {
     return "", nil, err
   }
 
-  path, err := formatTitlePath(*v.Content.Metadata.PublishTimestamp, v.Content.Metadata.Title)
+  path, err := formatTitlePath(
+      *v.Content.Metadata.PublishTimestamp,
+      v.Content.Metadata.Title)
   if err != nil {
     return "", nil, err
   }

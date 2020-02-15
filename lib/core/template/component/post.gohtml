@@ -4,53 +4,74 @@
 
 {{- define "post" -}}
 
-{{- if .Metadata.Title -}}
-<div class="row">
-<div class="col s12">
-<h2>{{- .Metadata.Title -}}</h2>
-</div>
-</div>
-{{- end -}}
+  {{- with .Metadata.Title -}}
+    <div class="row">
+    <div class="col s12">
+    <h2>{{- . -}}</h2>
+    </div>
+    </div>
+  {{- end -}}
 
-{{- if .Metadata.PublishTimestamp -}}
-<div class="row">
-<div class="col s12">
-{{- formatTime "January 02, 2006 15:04 MST" .Metadata.PublishTimestamp -}}
-</div>
-</div>
-{{- end -}}
+  {{- with .Metadata.PublishTimestamp -}}
+    <div class="row">
+    <div class="col s12">
+      {{- formatTime "January 02, 2006 15:04 MST" . -}}
+    </div>
+    </div>
+  {{- end -}}
 
-{{- if .Data.PhotoUrl -}}
-<div class="row">
-<div class="col s12">
-<!--
-  TODO(minkezhang): Make this functional.
-  See https://stackoverflow.com/a/40538410,
-      https://stackoverflow.com/a/34726863
- -->
-<div class="progress"><div class="indeterminate"></div></div>
-<img class="responsive-img" src="{{- .Data.PhotoUrl -}}" />
-</div>
-</div>
-{{- end -}}
+  {{- with .Metadata.Extension -}}
+    {{- $postMetadata := deserialize .Extension -}}
 
-{{- if .Data.Text -}}
-<div class="row">
-<div class="col s12">
-{{- .Data.Text -}}
-</div>
-</div>
-{{- end -}}
+    {{- with $postMetadata.PhotoUrl -}}
+      <div class="row">
+      <div class="col s12">
+      <!--
+        TODO(minkezhang): Make this functional.
+        See https://stackoverflow.com/a/40538410,
+            https://stackoverflow.com/a/34726863
+       -->
+      <div class="progress"><div class="indeterminate"></div></div>
+      <img class="responsive-img" src="{{- . -}}" />
+      </div>
+      </div>
+    {{- end -}}
 
-{{- if .Metadata.Tags -}}
-<div class="row">
-<div class="col s12">
-<i class="fas fa-tags" style="margin-right: 8px"></i>
-{{- range .Metadata.Tags -}}
-  <div class="chip">{{- . -}}</div>
-{{- end -}}
-</div>
-</div>
-{{- end -}}
+
+    {{- if (or (or (or $postMetadata.Camera $postMetadata.Lens) $postMetadata.Filters) $postMetadata.Film) -}}
+      <div class="row">
+      <div class="col s1"><i class="fas fa-camera"></i></div>
+      <div class="col s11">
+      {{- with $postMetadata.Camera -}}<div class="chip">{{- . -}}</div>{{- end -}}
+      {{- with $postMetadata.Lens -}}<div class="chip">{{- . -}}</div>{{- end -}}
+      {{- with $postMetadata.Filters -}}
+        {{- range . -}}
+          <div class="chip">{{- . -}}</div>
+        {{- end -}}
+      {{- end -}}
+      {{- with $postMetadata.Film -}}<div class="chip">{{- . -}}</div>{{- end -}}
+      </div>
+      </div>
+    {{- end -}}
+    {{- with $postMetadata.Location -}}
+      <div class="row">
+      <div class="col s1"><i class="fas fa-map-marker-alt"></i></div>
+      <div class="col s11"><div class="chip">{{- . -}}</div></div>
+    {{- end -}}
+  {{- end -}}
+
+  {{- with .Data.Text -}}
+    <div class="row"><div class="col s12">{{- . -}}</div></div>
+  {{- end -}}
+
+  {{- with .Metadata.Tags -}}
+    <div class="row">
+    <div class="col s1"><i class="fas fa-tags"></i></div>
+    <div class="col s11">
+      {{- range . -}}
+        <div class="chip">{{- . -}}</div>
+      {{- end -}}
+    </div></div>
+  {{- end -}}
 
 {{- end -}}

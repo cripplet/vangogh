@@ -6,10 +6,16 @@ option go_package = "vangogh_core_proto";
 import "lib/api/proto/base.proto";
 
 message PostMetadataExtension {
-  bool is_static = 1;
-  RenderCategoryEnum render_category = 2;
+  RenderCategoryEnum render_category = 1;
 
-  reserved 3 to 99;
+  string photo_url = 2;
+  string camera = 3;
+  string lens = 4;
+  repeated string filters = 5;
+  string film = 6;
+  string location = 7;
+
+  reserved 8 to 99;
 
   vangogh.api.proto.VangoghExtension extension = 100;
 };
