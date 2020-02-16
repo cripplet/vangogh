@@ -41,18 +41,77 @@
   body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
   }
+
+  .container {
+    /* Better line width for text. */
+    max-width: 600px;
+
+    /**
+     * Useful to take advantage of as much space as possible on
+     * smaller screens.
+     */
+    width: 100%;
+  }
+
+  /* Used to ensure we're rendering icons in an aligned manner. */
+  .icon {
+    width: 24px;
+    margin: 0 8px 0 0;
+    text-align: center;
+  }
+
+  /* Contains .progress and .post-img. */
+  .post-img-container {
+    position: relative;
+  }
+
+  /* Ensure we're not taking up extra vertical space for the progress bar. */
+  .post-img-container .progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .post-img {
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+  }
 </style>
 
 <title>Vangogh</title>
 
 </head>
 
-<body>
+<body onload="init()">
   {{- template "header" . -}}
   {{- template "body" . -}}
   {{- template "footer" . -}}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="//unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+  <script>
+    function imageLoadCallback(e) {
+      e.previousElementSibling.style.display = "none";
+      e.style.display = "inline";
+      e.style.opacity = 1;
+    }
+    function fadeInImages() {
+      var e;
+      Array.prototype.forEach.call(
+          document.getElementsByClassName("post-img"),
+          function(e) {
+            imagesLoaded(
+                e,
+                function() { imageLoadCallback(e) });
+          }
+      );
+    }
+    function init() {
+      fadeInImages();
+    }
+</script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 
 </html> 

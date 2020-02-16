@@ -5,6 +5,50 @@
 {{- define "post" -}}
   <article>
 
+    {{- with .Metadata.Extension -}}
+      {{- $postMetadata := deserialize .Extension -}}
+
+      {{- with $postMetadata.PhotoUrl -}}
+        <div class="row">
+          <div class="col s12">
+            <!--
+              TODO(minkezhang): Make this functional.
+              See https://stackoverflow.com/a/40538410,
+                  https://stackoverflow.com/a/34726863
+             -->
+            <div class="post-img-container">
+              <div class="progress">
+                <div class="indeterminate"></div>
+              </div>
+              <img class="responsive-img post-img" src="{{- . -}}" alt="" />
+            </div>
+          </div>
+        </div>
+      {{- end -}}
+
+      {{- if (or (or (or $postMetadata.Camera $postMetadata.Lens) $postMetadata.Filters) $postMetadata.Film) -}}
+        <div class="row">
+          <div class="col s12"><i class="fas fa-camera icon"></i>
+            {{- with $postMetadata.Camera -}}{{- . -}}{{- end -}}
+            {{- with $postMetadata.Lens -}}{{- . -}}{{- end -}}
+            {{- with $postMetadata.Filters -}}
+              {{- range . -}}
+                {{- . -}}
+              {{- end -}}
+            {{- end -}}
+            {{- with $postMetadata.Film -}}{{- . -}}{{- end -}}
+          </div>
+        </div>
+      {{- end -}}
+
+      {{- with $postMetadata.Location -}}
+        <div class="row">
+          <div class="col s12"><i class="fas fa-map-marker-alt icon"></i>{{- . -}}</div>
+        </div>
+      {{- end -}}
+
+    {{- end -}}
+
     {{- with .Metadata.Title -}}
       <div class="row">
       <div class="col s12">
@@ -21,45 +65,6 @@
       </div>
     {{- end -}}
 
-    {{- with .Metadata.Extension -}}
-      {{- $postMetadata := deserialize .Extension -}}
-
-      {{- with $postMetadata.Location -}}
-        <div class="row">
-          <div class="col s12"><i class="fas fa-map-marker-alt" style="margin-right: 8px"></i>{{- . -}}</div>
-        </div>
-      {{- end -}}
-
-      {{- with $postMetadata.PhotoUrl -}}
-        <div class="row">
-        <div class="col s12">
-        <!--
-          TODO(minkezhang): Make this functional.
-          See https://stackoverflow.com/a/40538410,
-              https://stackoverflow.com/a/34726863
-         -->
-        <div class="progress"><div class="indeterminate"></div></div>
-        <img class="responsive-img" src="{{- . -}}" alt="" />
-        </div>
-        </div>
-      {{- end -}}
-
-      {{- if (or (or (or $postMetadata.Camera $postMetadata.Lens) $postMetadata.Filters) $postMetadata.Film) -}}
-        <div class="row">
-          <div class="col s12"><i class="fas fa-camera" style="margin-right: 8px"></i>
-            {{- with $postMetadata.Camera -}}{{- . -}}{{- end -}}
-            {{- with $postMetadata.Lens -}}{{- . -}}{{- end -}}
-            {{- with $postMetadata.Filters -}}
-              {{- range . -}}
-                {{- . -}}
-              {{- end -}}
-            {{- end -}}
-            {{- with $postMetadata.Film -}}{{- . -}}{{- end -}}
-          </div>
-        </div>
-      {{- end -}}
-    {{- end -}}
-
     {{- with .Data.Text -}}
       <div class="row">
         <div class="col s12">{{- . -}}</div>
@@ -68,7 +73,7 @@
 
     {{- with .Metadata.Tags -}}
       <div class="row">
-        <div class="col s12"><i class="fas fa-tags" style="margin-right: 8px"></i>
+        <div class="col s12"><i class="fas fa-tags icon"></i>
           {{- range . -}}
             {{- . -}}
           {{- end -}}
