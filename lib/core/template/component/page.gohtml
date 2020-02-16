@@ -84,7 +84,7 @@
 
 </head>
 
-<body onload="init()">
+<body>
   {{- template "header" . -}}
   {{- template "body" . -}}
   {{- template "footer" . -}}
@@ -107,9 +107,9 @@
           }
       );
     }
-    function init() {
+    document.addEventListener("DOMContentLoaded", function() {
       fadeInImages();
-    }
+    });
 </script>
 
 </body>
