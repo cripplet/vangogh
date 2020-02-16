@@ -1,12 +1,10 @@
 package main
 
 import (
-  "bytes"
   "io"
   "io/ioutil"
-  "fmt"
-  "net/http"
 
+  vau "github.com/cripplet/vangogh/api/api_util"
   vpb "github.com/cripplet/vangogh/api/proto"
   "github.com/cripplet/vangogh/core/render"
   "github.com/golang/protobuf/proto"
@@ -14,13 +12,14 @@ import (
 
 var directory map[string][]byte = map[string][]byte{}
 
+type vgInterface struct {}
+func (v vgInterface) GeneratePages(
+    pb vpb.Blog) (map[string]io.Reader, error) {
+  return vangogh_core_render.VangoghGenerate(pb)
+}
+
 func main() {
-  var data []byte
-  var err error
-
-  var directory_readers map[string]io.Reader
-
-  data, err = ioutil.ReadFile("lib/api/proto/testdata/example.textpb")
+  data, err := ioutil.ReadFile("lib/api/proto/testdata/example.textpb")
   if err != nil {
     panic(err)
     return
@@ -32,37 +31,11 @@ func main() {
     return
   }
 
-  directory_readers, err = vangogh_core_render.VangoghGenerate(pb)
+  s, err := vau.CreateVangoghHTTPServer(vgInterface{}, pb, "0.0.0.0:8000")
   if err != nil {
     panic(err)
     return
   }
 
-  for u, r := range directory_readers {
-    fmt.Println(u)
-
-    b := bytes.Buffer{}
-    b.ReadFrom(r)
-    directory[u] = b.Bytes()
-  }
-
-  http.HandleFunc("/", handler)
-  http.ListenAndServe("0.0.0.0:8000", nil)
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-  w.Header().Set("Content-Type", "text/html")
-
-  b, is_found := directory[r.URL.Path]
-  // TODO(minkezhang): Make this configurable as a page.
-  if !is_found {
-    http.Error(w, "404 NOT FOUND", http.StatusNotFound)
-    return
-  }
-
-  _, err := w.Write(b)
-  if err != nil {
-    http.Error(w, err.Error(), http.StatusInternalServerError)
-    return
-  }
+  s.ListenAndServe()
 }

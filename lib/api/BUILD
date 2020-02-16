@@ -1,4 +1,8 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+package(default_visibility=[
+    "//visibility:public",
+])
 
 go_library(
     name = "api",
@@ -8,5 +12,14 @@ go_library(
         "//lib/api/proto:base_go_proto",
         "@com_github_golang_protobuf//proto:go_default_library",
     ],
-    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "api_util",
+    srcs = ["api_util.go"],
+    importpath = "github.com/cripplet/vangogh/api/api_util",
+    deps = [
+        ":api",
+        "//lib/api/proto:base_go_proto",
+    ],
 )

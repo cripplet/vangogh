@@ -28,6 +28,7 @@ go_binary(
     ],
     deps = [
         ":render",
+        "//lib/api:api_util",
         "//lib/api/proto:base_go_proto",
         "@com_github_golang_protobuf//proto:go_default_library",
     ],
