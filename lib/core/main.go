@@ -4,6 +4,7 @@ import (
   "bytes"
   "io"
   "io/ioutil"
+  "fmt"
   "net/http"
 
   vpb "github.com/cripplet/vangogh/api/proto"
@@ -38,6 +39,8 @@ func main() {
   }
 
   for u, r := range directory_readers {
+    fmt.Println(u)
+
     b := bytes.Buffer{}
     b.ReadFrom(r)
     directory[u] = b.Bytes()

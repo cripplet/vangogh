@@ -2,6 +2,7 @@ package vangogh_core_render_util
 
 import (
   "fmt"
+  "html/template"
   "net/url"
   "path/filepath"
   "regexp"
@@ -17,6 +18,13 @@ import (
 var illegalTitleCharRegex string = "[^A-Za-z0-0\\-]+"
 var postPathTimeFormat string = "2006/01/02"
 var componentFilePattern string = "lib/core/template/component/*.gohtml"
+
+func GetVangoghCoreTemplateFuncMap() template.FuncMap {
+  return template.FuncMap{
+      "deserialize": UnmarshalExtension,
+      "formatTime": FormatTime,
+  }
+}
 
 func UnmarshalExtension(pb *any.Any) (proto.Message, error) {
   var p ptypes.DynamicAny

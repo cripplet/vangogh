@@ -5,6 +5,7 @@ go_library(
     srcs = ["render.go"],
     importpath = "github.com/cripplet/vangogh/core/render",
     deps = [
+        ":render_post",
         ":render_util",
         ":type",
         # "//lib/api:api",
@@ -51,5 +52,15 @@ go_library(
         "@com_github_golang_protobuf//ptypes:go_default_library",
         "@io_bazel_rules_go//proto/wkt:any_go_proto",
         "@io_bazel_rules_go//proto/wkt:timestamp_go_proto",
+    ],
+)
+
+go_library(
+    name = "render_post",
+    srcs = ["render_post.go"],
+    importpath = "github.com/cripplet/vangogh/core/render_post",
+    deps = [
+        ":render_util",
+        ":type",
     ],
 )
