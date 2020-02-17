@@ -1,3 +1,7 @@
+// Package vangogh_core_render makes some basic assumptions about the
+// structure of a website and implements a rendering engine with
+// minimal extensions. The output here is compatible with the
+// vangogh_api_util helper functions.
 package vangogh_core_render
 
 import (
@@ -36,7 +40,13 @@ func tempGenerateAnyProto() string {
   return proto.MarshalTextString(a)
 }
 
-func VangoghGenerate(pb vpb.Site) (vapi.RoutingTable, error) {
+type CoreRenderInterface struct {}
+func (c CoreRenderInterface) GeneratePages(
+    pb vpb.Site) (vapi.RoutingTable, error) {
+  return generatePages(pb)
+}
+
+func generatePages(pb vpb.Site) (vapi.RoutingTable, error) {
   directory := vapi.RoutingTable{}
 
   for _, p := range pb.Posts {

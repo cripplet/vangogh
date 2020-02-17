@@ -3,6 +3,7 @@ package vangogh_api_proto_testdata
 import (
     "io/ioutil"
     "testing"
+
     "github.com/cripplet/vangogh/api/proto"
     "github.com/golang/protobuf/proto"
 )
@@ -17,6 +18,7 @@ func TestDataValidation(t *testing.T) {
         if err != nil {
             t.Errorf("Could not read file \"%s\": %s", fn, err)
         }
+
         pb := vangogh_api_proto.Site{}
         err = proto.UnmarshalText(string(data), &pb)
         if err != nil {
