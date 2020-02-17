@@ -12,6 +12,9 @@ import (
   vpb "github.com/cripplet/vangogh/api/proto"
 )
 
+// Function vangoghHTTPServerHandler returns a mux for emulating serving
+// static files. The input routing table is a map of partial paths,
+// e.g. "/posts/2010/12/31/happy-new-year" to the HTML content of the page.
 func vangoghHTTPServerHandler(
   rs map[string][]byte) func(http.ResponseWriter, *http.Request) {
   return func(w http.ResponseWriter, r *http.Request) {
@@ -32,6 +35,9 @@ func vangoghHTTPServerHandler(
   }
 }
 
+// Function CreateVangoghHTTPServer creates a valid http.Server object
+// which emulates a static file server (without actually committing to
+// creating the files).
 func CreateVangoghHTTPServer(
     r vangogh_api.VangoghRenderer,
     pb vpb.Site,

@@ -14,6 +14,16 @@ type RoutingTable = map[string]io.Reader
 // encapsulated in the proto into a context-dependent consumable form.
 // The return value is designed to be easily-digestable by the
 // vangough_api_util package.
+//
+// Example:
+//
+// type vgInterface struct {}
+// func (v vgInterface) GeneratePages(
+//     pb vangogh_api_proto.Site) (RoutingTable, error) {
+//   return RoutingTable{}, nil  // Call implementation function here.
+// }
+//
+// vangogh_api_util.CreateHTTPServer(vgInterface{}, ...).ServeAndListen()
 type VangoghRenderer interface {
   GeneratePages(vangogh_api_proto.Site) (RoutingTable, error)
 }
