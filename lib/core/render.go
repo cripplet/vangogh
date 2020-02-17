@@ -6,6 +6,7 @@ package vangogh_core_render
 
 import (
   "fmt"
+  "sort"
 
   vapi "github.com/cripplet/vangogh/api"
   vpb "github.com/cripplet/vangogh/api/proto"
@@ -41,46 +42,16 @@ func tempGenerateAnyProto() string {
   return proto.MarshalTextString(a)
 }
 
+// Type CoreRenderInterface implements vangogh_api.VangoghRenderer.
 type CoreRenderInterface struct {}
 func (c CoreRenderInterface) GeneratePages(
     pb vpb.Site) (vapi.RoutingTable, error) {
   return generatePages(pb)
 }
 
-func generateAllPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
-  posts := []vpb.Post{}
-  for _, p := range pb.Posts {
-    posts = append(posts, *p)
-  }
-
-  return vcrp.RenderPostList(
-      vct.ViewPostListData{Site: pb, Content: posts}, "/")
-}
-
-func generatePhotoPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
-  posts := []vpb.Post{}
-
-  for _, p := range pb.Posts {
-    if (
-        p.Metadata != nil &&
-        p.Metadata.Extension != nil &&
-        p.Metadata.Extension.Extension != nil) {
-      var ext vpbc.PostMetadataExtension
-      err := ptypes.UnmarshalAny(p.Metadata.Extension.Extension, &ext)
-      if err != nil {
-        return nil, err
-      }
-
-      if ext.RenderCategory == vpbc.RenderCategoryEnum_RENDER_CATEGORY_PHOTO {
-        posts = append(posts, *p)
-      }
-    }
-  }
-
-  return vcrp.RenderPostList(
-      vct.ViewPostListData{Site: pb, Content: posts}, "/photography/")
-}
-
+// Function generatePages is the entry point for generating all pages for the
+// core renderer. This function will call the various helper functions defined
+// in the packages vangogh_core_render and vangogh_core_render_util.
 func generatePages(pb vpb.Site) (vapi.RoutingTable, error) {
   rt := vapi.RoutingTable{}
   rs := []vapi.RoutingTableRow{}
@@ -111,4 +82,60 @@ func generatePages(pb vpb.Site) (vapi.RoutingTable, error) {
   }
 
   return rt, nil
+}
+
+func sortPostsReverseChronologicalOrder(ps []vpb.Post) func(i, j int) bool {
+  return func(i, j int) bool {
+    if ps[i].Metadata == nil || ps[j].Metadata == nil {
+     return false
+    }
+
+    it, err := ptypes.Timestamp(ps[i].Metadata.PublishTimestamp)
+    if err != nil {
+      return false
+    }
+
+    jt, err := ptypes.Timestamp(ps[j].Metadata.PublishTimestamp)
+    if err != nil {
+      return false
+    }
+
+    return it.After(jt)
+  }
+}
+
+func generateAllPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
+  posts := []vpb.Post{}
+  for _, p := range pb.Posts {
+    posts = append(posts, *p)
+  }
+
+  sort.Slice(posts, sortPostsReverseChronologicalOrder(posts))
+
+  return vcrp.RenderPostList(
+      vct.ViewPostListData{Site: pb, Content: posts}, "/")
+}
+
+func generatePhotoPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
+  posts := []vpb.Post{}
+
+  for _, p := range pb.Posts {
+    if (
+        p.Metadata != nil &&
+        p.Metadata.Extension != nil &&
+        p.Metadata.Extension.Extension != nil) {
+      var ext vpbc.PostMetadataExtension
+      err := ptypes.UnmarshalAny(p.Metadata.Extension.Extension, &ext)
+      if err != nil {
+        return nil, err
+      }
+
+      if ext.RenderCategory == vpbc.RenderCategoryEnum_RENDER_CATEGORY_PHOTO {
+        posts = append(posts, *p)
+      }
+    }
+  }
+
+  return vcrp.RenderPostList(
+      vct.ViewPostListData{Site: pb, Content: posts}, "/photography/")
 }
