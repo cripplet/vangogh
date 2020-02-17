@@ -1,9 +1,9 @@
 package main
 
 import (
-  "io"
   "io/ioutil"
 
+  vapi "github.com/cripplet/vangogh/api"
   vau "github.com/cripplet/vangogh/api/api_util"
   vpb "github.com/cripplet/vangogh/api/proto"
   "github.com/cripplet/vangogh/core/render"
@@ -14,7 +14,7 @@ var directory map[string][]byte = map[string][]byte{}
 
 type vgInterface struct {}
 func (v vgInterface) GeneratePages(
-    pb vpb.Site) (map[string]io.Reader, error) {
+    pb vpb.Site) (vapi.RoutingTable, error) {
   return vangogh_core_render.VangoghGenerate(pb)
 }
 

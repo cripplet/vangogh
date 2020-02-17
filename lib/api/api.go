@@ -8,10 +8,12 @@ import (
     "github.com/cripplet/vangogh/api/proto"
 )
 
+type RoutingTable = map[string]io.Reader
+
 // Interface VangoghRenderer is tasked with transforming the contents
 // encapsulated in the proto into a context-dependent consumable form.
 // The return value is designed to be easily-digestable by the
 // vangough_api_util package.
 type VangoghRenderer interface {
-  GeneratePages(vangogh_api_proto.Site) (map[string]io.Reader, error)
+  GeneratePages(vangogh_api_proto.Site) (RoutingTable, error)
 }

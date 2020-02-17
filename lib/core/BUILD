@@ -8,7 +8,7 @@ go_library(
         ":render_post",
         ":render_util",
         ":type",
-        # "//lib/api:api",
+        "//lib/api:api",
         "//lib/api/proto:base_go_proto",
         "//lib/core/proto:core_extension_go_proto",
         "@com_github_golang_protobuf//proto:go_default_library",
@@ -28,6 +28,7 @@ go_binary(
     ],
     deps = [
         ":render",
+        "//lib/api:api",
         "//lib/api:api_util",
         "//lib/api/proto:base_go_proto",
         "@com_github_golang_protobuf//proto:go_default_library",

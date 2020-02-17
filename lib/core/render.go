@@ -2,8 +2,8 @@ package vangogh_core_render
 
 import (
   "fmt"
-  "io"
 
+  vapi "github.com/cripplet/vangogh/api"
   vpb "github.com/cripplet/vangogh/api/proto"
   vpbc "github.com/cripplet/vangogh/core/proto"
   vcrp "github.com/cripplet/vangogh/core/render_post"
@@ -36,8 +36,8 @@ func tempGenerateAnyProto() string {
   return proto.MarshalTextString(a)
 }
 
-func VangoghGenerate(pb vpb.Site) (map[string]io.Reader, error) {
-  directory := map[string]io.Reader{}
+func VangoghGenerate(pb vpb.Site) (vapi.RoutingTable, error) {
+  directory := vapi.RoutingTable{}
 
   for _, p := range pb.Posts {
     path, r, err := vcrp.RenderPost(vct.ViewPostData{Site: pb, Content: *p})
