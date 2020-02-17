@@ -64,5 +64,6 @@ go_library(
     deps = [
         ":render_util",
         ":type",
+        "//lib/api:api",
     ],
 )

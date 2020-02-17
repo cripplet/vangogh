@@ -1,18 +1,22 @@
 package vangogh_core_render_post
 
 import (
-  "io"
   "html/template"
   "strings"
 
+  vapi "github.com/cripplet/vangogh/api"
   vcru "github.com/cripplet/vangogh/core/render_util"
   vct "github.com/cripplet/vangogh/core/type"
 )
 
-func RenderPostList(v vct.ViewPostListData, path_prefix string) (string, io.Reader, error) {
+// Function RenderPostList will generate the paginated index of a list of
+// vangogh_api_proto.Posts.
+func RenderPostList(v vct.ViewPostListData, path_prefix string) ([]vapi.RoutingTableRow, error) {
+  pages := []vapi.RoutingTableRow{}
+
   f, err := vcru.GetComponentFiles()
   if err != nil {
-    return "", nil, err
+    return nil, err
   }
 
   b := strings.Builder{}
@@ -21,21 +25,25 @@ func RenderPostList(v vct.ViewPostListData, path_prefix string) (string, io.Read
     vcru.GetVangoghCoreTemplateFuncMap(),
   ).ParseFiles(f...)
   if err != nil {
-    return "", nil, err
+    return nil, err
   }
 
   err = t.ExecuteTemplate(&b, "page", v)
   if err != nil {
-    return "", nil, err
+    return nil, err
   }
 
-  return path_prefix, strings.NewReader(b.String()), nil
+  pages = append(pages, vapi.RoutingTableRow{
+      Path: path_prefix,
+      Reader: strings.NewReader(b.String()),
+  })
+  return pages, nil
 }
 
-func RenderPost(v vct.ViewPostData) (string, io.Reader, error) {
+func RenderPost(v vct.ViewPostData) (vapi.RoutingTableRow, error) {
   f, err := vcru.GetComponentFiles()
   if err != nil {
-    return "", nil, err
+    return vapi.RoutingTableRow{}, err
   }
 
   b := strings.Builder{}
@@ -44,17 +52,21 @@ func RenderPost(v vct.ViewPostData) (string, io.Reader, error) {
     vcru.GetVangoghCoreTemplateFuncMap(),
   ).ParseFiles(f...)
   if err != nil {
-    return "", nil, err
+    return vapi.RoutingTableRow{}, err
   }
 
   err = t.ExecuteTemplate(&b, "page", v)
   if err != nil {
-    return "", nil, err
+    return vapi.RoutingTableRow{}, err
   }
 
   path, err := vcru.FormatPostPath(v.Content)
   if err != nil {
-    return "", nil, err
+    return vapi.RoutingTableRow{}, err
   }
-  return path, strings.NewReader(b.String()), nil
+
+  return vapi.RoutingTableRow{
+      Path: path,
+      Reader: strings.NewReader(b.String()),
+  }, nil
 }

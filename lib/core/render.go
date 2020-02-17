@@ -6,7 +6,6 @@ package vangogh_core_render
 
 import (
   "fmt"
-  "io"
 
   vapi "github.com/cripplet/vangogh/api"
   vpb "github.com/cripplet/vangogh/api/proto"
@@ -48,22 +47,17 @@ func (c CoreRenderInterface) GeneratePages(
   return generatePages(pb)
 }
 
-func generateAllPostList(pb vpb.Site) (string, io.Reader, error) {
+func generateAllPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
   posts := []vpb.Post{}
   for _, p := range pb.Posts {
     posts = append(posts, *p)
   }
 
-  path, r, err := vcrp.RenderPostList(
+  return vcrp.RenderPostList(
       vct.ViewPostListData{Site: pb, Content: posts}, "/")
-  if err != nil {
-    return "", nil, err
-  }
-
-  return path, r, nil
 }
 
-func generatePhotoPostList(pb vpb.Site) (string, io.Reader, error) {
+func generatePhotoPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
   posts := []vpb.Post{}
 
   for _, p := range pb.Posts {
@@ -74,7 +68,7 @@ func generatePhotoPostList(pb vpb.Site) (string, io.Reader, error) {
       var ext vpbc.PostMetadataExtension
       err := ptypes.UnmarshalAny(p.Metadata.Extension.Extension, &ext)
       if err != nil {
-        return "", nil, err
+        return nil, err
       }
 
       if ext.RenderCategory == vpbc.RenderCategoryEnum_RENDER_CATEGORY_PHOTO {
@@ -83,38 +77,38 @@ func generatePhotoPostList(pb vpb.Site) (string, io.Reader, error) {
     }
   }
 
-  path, r, err := vcrp.RenderPostList(
+  return vcrp.RenderPostList(
       vct.ViewPostListData{Site: pb, Content: posts}, "/photography/")
-  if err != nil {
-    return "", nil, err
-  }
-
-  return path, r, nil
 }
 
 func generatePages(pb vpb.Site) (vapi.RoutingTable, error) {
   rt := vapi.RoutingTable{}
+  rs := []vapi.RoutingTableRow{}
 
   for _, p := range pb.Posts {
-    path, r, err := vcrp.RenderPost(
+    r, err := vcrp.RenderPost(
         vct.ViewPostData{Site: pb, Content: *p})
     if err != nil {
       return nil, err
     }
-    rt[path] = r
+    rs = append(rs, r)
   }
 
-  path, r, err := generatePhotoPostList(pb)
+  trs, err := generatePhotoPostList(pb)
   if err != nil {
     return nil, err
   }
-  rt[path] = r
+  rs = append(rs, trs...)
 
-  path, r, err = generateAllPostList(pb)
+  trs, err = generateAllPostList(pb)
   if err != nil {
     return nil, err
   }
-  rt[path] = r
+  rs = append(rs, trs...)
+
+  if rt.AddRoutes(rs) != nil {
+    return nil, err
+  }
 
   return rt, nil
 }
