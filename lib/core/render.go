@@ -6,6 +6,7 @@ package vangogh_core_render
 
 import (
   "fmt"
+  "io"
 
   vapi "github.com/cripplet/vangogh/api"
   vpb "github.com/cripplet/vangogh/api/proto"
@@ -47,29 +48,54 @@ func (c CoreRenderInterface) GeneratePages(
   return generatePages(pb)
 }
 
-func generatePages(pb vpb.Site) (vapi.RoutingTable, error) {
-  rt := vapi.RoutingTable{}
+func generateAllPostList(pb vpb.Site) (string, io.Reader, error) {
+  posts := []vpb.Post{}
+  for _, p := range pb.Posts {
+    posts = append(posts, *p)
+  }
 
-  all_posts := []vpb.Post{}
-  text_posts := []vpb.Post{}
-  photo_posts := []vpb.Post{}
+  path, r, err := vcrp.RenderPostList(
+      vct.ViewPostListData{Site: pb, Content: posts}, "/")
+  if err != nil {
+    return "", nil, err
+  }
+
+  return path, r, nil
+}
+
+func generatePhotoPostList(pb vpb.Site) (string, io.Reader, error) {
+  posts := []vpb.Post{}
 
   for _, p := range pb.Posts {
-    all_posts = append(all_posts, *p)
-    if p.Metadata != nil && p.Metadata.Extension != nil && p.Metadata.Extension.Extension != nil {
+    if (
+        p.Metadata != nil &&
+        p.Metadata.Extension != nil &&
+        p.Metadata.Extension.Extension != nil) {
       var ext vpbc.PostMetadataExtension
       err := ptypes.UnmarshalAny(p.Metadata.Extension.Extension, &ext)
       if err != nil {
-        return nil, err
+        return "", nil, err
       }
-      switch rc := ext.RenderCategory; rc {
-      case vpbc.RenderCategoryEnum_RENDER_CATEGORY_TEXT:
-        text_posts = append(text_posts, *p)
-      case vpbc.RenderCategoryEnum_RENDER_CATEGORY_PHOTO:
-        photo_posts = append(photo_posts, *p)
+
+      if ext.RenderCategory == vpbc.RenderCategoryEnum_RENDER_CATEGORY_PHOTO {
+        posts = append(posts, *p)
       }
     }
+  }
 
+  path, r, err := vcrp.RenderPostList(
+      vct.ViewPostListData{Site: pb, Content: posts}, "/photography/")
+  if err != nil {
+    return "", nil, err
+  }
+
+  return path, r, nil
+}
+
+func generatePages(pb vpb.Site) (vapi.RoutingTable, error) {
+  rt := vapi.RoutingTable{}
+
+  for _, p := range pb.Posts {
     path, r, err := vcrp.RenderPost(
         vct.ViewPostData{Site: pb, Content: *p})
     if err != nil {
@@ -78,22 +104,13 @@ func generatePages(pb vpb.Site) (vapi.RoutingTable, error) {
     rt[path] = r
   }
 
-  path, r, err := vcrp.RenderPostList(
-      vct.ViewPostListData{Site: pb, Content: text_posts}, "/category/text/")
+  path, r, err := generatePhotoPostList(pb)
   if err != nil {
     return nil, err
   }
   rt[path] = r
 
-  path, r, err = vcrp.RenderPostList(
-      vct.ViewPostListData{Site: pb, Content: photo_posts}, "/category/photography/")
-  if err != nil {
-    return nil, err
-  }
-  rt[path] = r
-
-  path, r, err = vcrp.RenderPostList(
-      vct.ViewPostListData{Site: pb, Content: all_posts}, "/")
+  path, r, err = generateAllPostList(pb)
   if err != nil {
     return nil, err
   }
