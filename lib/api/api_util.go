@@ -1,3 +1,6 @@
+// Package vangogh_api_util provides QoL functions for Vangogh.
+// Implementations may freely call these functions to help surface
+// generated data.
 package vangogh_api_util
 
 import (
