@@ -34,7 +34,7 @@ func vangoghHTTPServerHandler(
 
 func CreateVangoghHTTPServer(
     r vangogh_api.VangoghRenderer,
-    pb vpb.Blog,
+    pb vpb.Site,
     address string) (http.Server, error) {
   var routes map[string][]byte = map[string][]byte{}
 

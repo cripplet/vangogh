@@ -17,7 +17,7 @@ func TestDataValidation(t *testing.T) {
         if err != nil {
             t.Errorf("Could not read file \"%s\": %s", fn, err)
         }
-        pb := vangogh_api_proto.Blog{}
+        pb := vangogh_api_proto.Site{}
         err = proto.UnmarshalText(string(data), &pb)
         if err != nil {
             t.Errorf("Could not load textproto, exited with error: %s", err)

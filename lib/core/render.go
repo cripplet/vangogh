@@ -36,11 +36,11 @@ func tempGenerateAnyProto() string {
   return proto.MarshalTextString(a)
 }
 
-func VangoghGenerate(pb vpb.Blog) (map[string]io.Reader, error) {
+func VangoghGenerate(pb vpb.Site) (map[string]io.Reader, error) {
   directory := map[string]io.Reader{}
 
   for _, p := range pb.Posts {
-    path, r, err := vcrp.RenderPost(vct.ViewPostData{Blog: pb, Content: *p})
+    path, r, err := vcrp.RenderPost(vct.ViewPostData{Site: pb, Content: *p})
     if err != nil {
       return nil, err
     }

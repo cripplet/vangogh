@@ -14,7 +14,7 @@ var directory map[string][]byte = map[string][]byte{}
 
 type vgInterface struct {}
 func (v vgInterface) GeneratePages(
-    pb vpb.Blog) (map[string]io.Reader, error) {
+    pb vpb.Site) (map[string]io.Reader, error) {
   return vangogh_core_render.VangoghGenerate(pb)
 }
 
@@ -25,7 +25,7 @@ func main() {
     return
   }
 
-  pb := vpb.Blog{}
+  pb := vpb.Site{}
   if err = proto.UnmarshalText(string(data), &pb); err != nil {
     panic(err)
     return

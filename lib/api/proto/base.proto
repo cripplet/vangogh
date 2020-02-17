@@ -1,8 +1,8 @@
 /**
- * Base proto definition for a blog.
+ * Base proto definition for a website.
  *
  * Fields included in the proto here refer to specifically
- * the content of the blog. Fields here explicitly do not have any
+ * the content of the site. Fields here explicitly do not have any
  * associated data which refer to how the content should be
  * displayed.
  */
@@ -18,12 +18,12 @@ message VangoghExtension {
   google.protobuf.Any extension = 1;
 };
 
-message Blog {
-  BlogMetadata metadata = 1;
+message Site {
+  SiteMetadata metadata = 1;
   repeated Post posts = 2;
 };
 
-message BlogMetadata {
+message SiteMetadata {
   string language = 1;
 
   reserved 2 to 99;

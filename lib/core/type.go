@@ -5,7 +5,7 @@ import (
 )
 
 type ViewPostData struct {
-  Blog vpb.Blog
+  Site vpb.Site
   // Page-specific data to be used in generating the content template.
   Content vpb.Post
 }
