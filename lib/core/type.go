@@ -9,3 +9,8 @@ type ViewPostData struct {
   // Page-specific data to be used in generating the content template.
   Content vpb.Post
 }
+
+type ViewPostListData struct {
+  Site vpb.Site
+  Content []vpb.Post
+}

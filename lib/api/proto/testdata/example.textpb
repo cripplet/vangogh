@@ -37,6 +37,12 @@ posts: <
     language: "en"
     tags: "example"
     tags: "tree-law"
+    extension: <
+      extension: <
+        type_url: "github.com/cripplet/vangogh/vangogh.core.proto.PostMetadataExtension"
+        value: "\010\001"
+      >
+    >
   >
   data: <
     text: "Just don't."

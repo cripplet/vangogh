@@ -1,0 +1,10 @@
+<!--
+  Expected context is a vangogh_api_proto.Post list.
+ -->
+
+{{- define "content" -}}
+  {{- range . -}}
+    {{- template "post" . -}}
+  {{- end -}}
+{{- end -}}
+

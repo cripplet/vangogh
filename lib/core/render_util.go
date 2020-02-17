@@ -26,16 +26,24 @@ func GetVangoghCoreTemplateFuncMap() template.FuncMap {
   }
 }
 
+// Function UnmarshalExtension is used in the templates as a quick way
+// to surface extensions. Normal library code should do this manually,
+// e.g. by explicitly declaring the proto type.
+//
+// var p MyExtension
+// ...
+//
+// TODO(minkezhang): Figure out why invoking this in the library case
+// results in the proto.Message type being strictly enforced, causing us
+// to be unable to resolve extension fields.
 func UnmarshalExtension(pb *any.Any) (proto.Message, error) {
   var p ptypes.DynamicAny
-  err := ptypes.UnmarshalAny(pb, &p)
-  if err != nil {
+  if err := ptypes.UnmarshalAny(pb, &p); err != nil {
     return nil, err
   }
 
-  return p.Message, err
+  return p.Message, nil
 }
-
 
 func FormatTime(f string, pb timestamp.Timestamp) (string, error) {
   t, err := ptypes.Timestamp(&pb)
