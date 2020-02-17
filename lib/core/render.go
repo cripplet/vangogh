@@ -136,6 +136,8 @@ func generatePhotoPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
     }
   }
 
+  sort.Slice(posts, sortPostsReverseChronologicalOrder(posts))
+
   return vcrp.RenderPostList(
       vct.ViewPostListData{Site: pb, Content: posts}, "/photography/")
 }
