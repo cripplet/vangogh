@@ -7,6 +7,10 @@ import "lib/api/proto/base.proto";
 
 message SiteMetadataExtension {
   repeated SocialMediaConnection social_media = 1;
+
+  reserved 2 to 99;
+
+  vangogh.api.proto.VangoghExtension extension = 100;
 }
 
 message PostMetadataExtension {
