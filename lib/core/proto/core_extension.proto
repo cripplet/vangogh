@@ -5,6 +5,10 @@ option go_package = "vangogh_core_proto";
 
 import "lib/api/proto/base.proto";
 
+message SiteMetadataExtension {
+  repeated SocialMediaConnection social_media = 1;
+}
+
 message PostMetadataExtension {
   RenderCategoryEnum render_category = 1;
 
@@ -20,8 +24,22 @@ message PostMetadataExtension {
   vangogh.api.proto.VangoghExtension extension = 100;
 };
 
+message SocialMediaConnection {
+  SocialMediaEnum media_type = 1;
+  string url = 2;
+};
+
 enum RenderCategoryEnum {
   RENDER_CATEGORY_UNSPECIFIED = 0;
   RENDER_CATEGORY_TEXT = 1;
   RENDER_CATEGORY_PHOTO = 2;
 };
+
+enum SocialMediaEnum {
+  SOCIAL_MEDIA_UNSPECIFIED = 0;
+  SOCIAL_MEDIA_FACEBOOK = 1;
+  SOCIAL_MEDIA_INSTAGRAM = 2;
+  SOCIAL_MEDIA_YOUTUBE = 3;
+  SOCIAL_MEDIA_GITHUB = 4;
+};
+
