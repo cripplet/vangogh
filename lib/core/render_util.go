@@ -1,6 +1,7 @@
 package vangogh_core_render_util
 
 import (
+  "errors"
   "fmt"
   "html/template"
   "net/url"
@@ -9,6 +10,7 @@ import (
   "strings"
 
   vpb "github.com/cripplet/vangogh/api/proto"
+  vpbc "github.com/cripplet/vangogh/core/proto"
   "github.com/golang/protobuf/proto"
   "github.com/golang/protobuf/ptypes"
   "github.com/golang/protobuf/ptypes/any"
@@ -26,6 +28,21 @@ func GetVangoghCoreTemplateFuncMap() template.FuncMap {
       "formatPaginate": FormatPaginateURL,
       "addInt": AddInt,
       "subInt": SubInt,
+      "getSocialMediaIconClass": GetSocialMediaIconClass,
+  }
+}
+
+func GetSocialMediaIconClass(p vpbc.SocialMediaEnum) (string, error) {
+  l := map[vpbc.SocialMediaEnum]string{
+      vpbc.SocialMediaEnum_SOCIAL_MEDIA_FACEBOOK: "fab fa-facebook-f",
+      vpbc.SocialMediaEnum_SOCIAL_MEDIA_INSTAGRAM: "fab fa-instagram",
+      vpbc.SocialMediaEnum_SOCIAL_MEDIA_YOUTUBE: "fab fa-youtube",
+      vpbc.SocialMediaEnum_SOCIAL_MEDIA_GITHUB: "fab fa-github",
+  }
+  if c, ok := l[p]; !ok {
+    return "", errors.New("Cannot find specified social media icon.")
+  } else {
+    return c, nil
   }
 }
 

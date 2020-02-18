@@ -50,6 +50,7 @@ go_library(
     importpath = "github.com/cripplet/vangogh/core/render_util",
     deps = [
         "//lib/api/proto:base_go_proto",
+        "//lib/core/proto:core_extension_go_proto",
         "@com_github_golang_protobuf//proto:go_default_library",
         "@com_github_golang_protobuf//ptypes:go_default_library",
         "@io_bazel_rules_go//proto/wkt:any_go_proto",

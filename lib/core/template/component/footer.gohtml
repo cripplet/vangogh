@@ -1,33 +1,55 @@
+<!--
+  Page footer; expected input is directly passed in from the "page" template.
+ -->
+
 {{- define "footer" -}}
-<!-- TODO(minkezhang): Fill out footer with links from metadata. -->
-<footer class="page-footer">
-  <div class="container">
-    <div class="row">
-      <div class="col s8">
-        <h4>Tags</h4>
-        <ul>
-          <li><a href="http://google.com">tag 1</a></li>
-          <li><a href="http://google.com">tag 2</a></li>
-          <li><a href="http://google.com">tag 3</a></li>
-          <li><a href="http://google.com">tag 4</a></li>
-          <li><a href="http://google.com">tag 5</a></li>
-        </ul>
-      </div>
-      <div class="col s4">
-        <h4>Social Media</h4>
-        <ul class="social-media-ul">
-          <li><a href="http://google.com"><i class="fab fa-facebook-f"></i></a></li>
-          <li><a href="http://google.com"><i class="fab fa-instagram"></i></a></li>
-          <li><a href="http://google.com"><i class="fab fa-youtube"></i></a></li>
-          <li><a href="http://google.com"><i class="fab fa-github"></i></a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="footer-copyright">
+  <footer class="page-footer">
     <div class="container">
-      COPYRIGHT STUFF
+      <div class="row">
+        <div class="col s8">
+          <!--
+            TODO(minkezhang): Fill out with relevant data when tag
+            rendering implemented.
+           -->
+          <h4>Top Tags</h4>
+          <ul>
+            <li><a href="http://google.com">tag 1</a></li>
+            <li><a href="http://google.com">tag 2</a></li>
+            <li><a href="http://google.com">tag 3</a></li>
+            <li><a href="http://google.com">tag 4</a></li>
+            <li><a href="http://google.com">tag 5</a></li>
+          </ul>
+        </div>
+        <div class="col s4">
+          {{- with .Site.Metadata.Extension -}}
+            {{- $siteMetadata := deserialize .Extension -}}
+
+            <h4>Contact</h4>
+            <ul class="social-media-ul">
+              {{- range $siteMetadata.SocialMedia -}}
+                <li>
+                  <a href="{{- .Url -}}">
+                    <i class="{{- getSocialMediaIconClass .MediaType -}}"></i>
+                  </a>
+                </li>
+              {{- end -}}
+            </ul>
+          {{- end -}}
+        </div>
+      </div>
     </div>
-  </div>
-</footer>
+    <div class="footer-copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <p>
+              <i class="fas fa-hammer"></i> using
+              <a href="https://github.com/cripplet/vangogh">Vangogh</a>
+              and cribs from the vastly superior <a href="https://github.com/Lednerb/bilberry-hugo-theme">Bilberry Hugo Theme</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 {{- end -}}
