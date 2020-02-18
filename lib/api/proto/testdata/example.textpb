@@ -1,5 +1,11 @@
 metadata: <
   language: "en"
+  extension: <
+    extension: <
+      type_url: "type.googleapis.com/vangogh.core.proto.SiteMetadataExtension"
+      value: "\n\033\010\001\022\027http://www.facebook.com\n\034\010\002\022\030http://www.instagram.com\n\032\010\003\022\026http://www.youtube.com\n\031\010\004\022\025http://www.github.com"
+    >
+  >
 >
 
 posts: <
