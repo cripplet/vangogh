@@ -12,6 +12,8 @@ type ViewPostData struct {
 
 type ViewPostListDataContent struct {
   Posts []vpb.Post
+  FirstPageLink string
+  LastPageLink string
   NextPageLink string
   PrevPageLink string
 }

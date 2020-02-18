@@ -6,11 +6,25 @@
   {{- range .Posts -}}
     {{- template "post" . -}}
   {{- end -}}
-  {{- with .NextPageLink -}}
-    <a href="{{- . -}}">Older</a>
-  {{- end -}}
-  {{- with .PrevPageLink -}}
-    <a href="{{- . -}}">Newer</a>
-  {{- end -}}
+
+  <div class="row"><div class="col s12">
+
+    {{- with .LastPageLink -}}
+      <a href="{{- . -}}"><i class="fas fa-angle-double-left icon"></i></a>
+    {{- end -}}
+
+    {{- with .NextPageLink -}}
+      <a href="{{- . -}}"><i class="fas fa-angle-left icon"></i></a>
+    {{- end -}}
+
+    {{- with .PrevPageLink -}}
+      <a href="{{- . -}}"><i class="fas fa-angle-right icon"></i></a>
+    {{- end -}}
+
+    {{- with .FirstPageLink -}}
+      <a href="{{- . -}}"><i class="fas fa-angle-double-right icon"></i></a>
+    {{- end -}}
+
+  </div></div>
 {{- end -}}
 

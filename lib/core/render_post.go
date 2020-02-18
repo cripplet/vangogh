@@ -16,8 +16,8 @@ func getPageNumber(sliceFloor int, batchSize int) int {
   return sliceFloor / batchSize + 1
 }
 
-func formatPostPaginateURL(path_prefix string, pageNumber int) string {
-  return path_prefix + fmt.Sprintf("page/%d/", pageNumber)
+func formatPostPaginateURL(pathPrefix string, pageNumber int) string {
+  return pathPrefix + fmt.Sprintf("page/%d/", pageNumber)
 }
 
 
@@ -26,7 +26,7 @@ func formatPostPaginateURL(path_prefix string, pageNumber int) string {
 func RenderPostList(
     pb vpb.Site,
     ps []vpb.Post,
-    path_prefix string) ([]vapi.RoutingTableRow, error) {
+    pathPrefix string) ([]vapi.RoutingTableRow, error) {
   pages := []vapi.RoutingTableRow{}
 
   batchSize := 1  // TODO(minkezhang): Add this as a SiteMetadata property.
@@ -50,13 +50,17 @@ func RenderPostList(
     sliceFloor := p * batchSize
     sliceCeil := int(math.Min(float64(sliceFloor + batchSize), float64(len(ps))))
 
+    firstPageLink := ""
+    lastPageLink := ""
     nextPageLink := ""
     prevPageLink := ""
     if pageNum != 1 {
-      prevPageLink = formatPostPaginateURL(path_prefix, pageNum - 1)
+      firstPageLink = formatPostPaginateURL(pathPrefix, 1)
+      prevPageLink = formatPostPaginateURL(pathPrefix, pageNum - 1)
     }
     if pageNum < maxPageNum {
-      nextPageLink = formatPostPaginateURL(path_prefix, pageNum + 1)
+      lastPageLink = formatPostPaginateURL(pathPrefix, maxPageNum)
+      nextPageLink = formatPostPaginateURL(pathPrefix, pageNum + 1)
     }
 
     b := strings.Builder{}
@@ -64,6 +68,8 @@ func RenderPostList(
       Site: pb,
       Content: vct.ViewPostListDataContent{
         Posts: ps[sliceFloor:sliceCeil],
+        FirstPageLink: firstPageLink,
+        LastPageLink: lastPageLink,
         NextPageLink: nextPageLink,
         PrevPageLink: prevPageLink,
       },
@@ -73,13 +79,13 @@ func RenderPostList(
     }
 
     pages = append(pages, vapi.RoutingTableRow{
-        Path: formatPostPaginateURL(path_prefix, pageNum),
+        Path: formatPostPaginateURL(pathPrefix, pageNum),
         Reader: strings.NewReader(b.String()),
     })
     // First page of an index shouldn't need to explicitly specify the page number.
     if pageNum == 1 {
       pages = append(pages, vapi.RoutingTableRow{
-          Path: path_prefix,
+          Path: pathPrefix,
           Reader: strings.NewReader(b.String()),
       })
     }
