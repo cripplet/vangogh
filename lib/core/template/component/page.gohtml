@@ -14,13 +14,13 @@
   Placeholder templates.
   TODO(minkezhang): Implement these.
  -->
-{{- define "header" -}}{{- end -}}
+{{- define "header" -}}<header></header>{{- end -}}
 
 {{- define "body" -}}
-  <div class="container">{{- template "content" .Content -}}</div>
+  <main>
+    <div class="container">{{- template "content" .Content -}}</div>
+  </main>
 {{- end -}}
-
-{{- define "footer" -}}{{- end -}}
 
 {{- define "page" -}}
 <!DOCTYPE html>
@@ -38,6 +38,16 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet" type="text/css" />
 
 <style>
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
   body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
   }
@@ -77,6 +87,26 @@
     transition: opacity .5s ease-in-out;
     -moz-transition: opacity .5s ease-in-out;
     -webkit-transition: opacity .5s ease-in-out;
+  }
+
+  footer a {
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+    opacity: .5;
+  }
+  footer a:hover {
+    opacity: 1;
+  }
+
+  footer .social-media-ul {
+    display: block;
+  }
+  footer .social-media-ul li {
+    display: inline-block;
+  }
+  footer .social-media-ul li a, footer a {
+    color: black;
   }
 </style>
 
