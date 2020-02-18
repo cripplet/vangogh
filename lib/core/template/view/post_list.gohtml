@@ -1,10 +1,16 @@
 <!--
-  Expected context is a vangogh_api_proto.Post list.
+  Expected context is a vangogh_core_type.ViewPostListDataContent instance.
  -->
 
 {{- define "content" -}}
-  {{- range . -}}
+  {{- range .Posts -}}
     {{- template "post" . -}}
+  {{- end -}}
+  {{- with .NextPageLink -}}
+    <a href="{{- . -}}">Older</a>
+  {{- end -}}
+  {{- with .PrevPageLink -}}
+    <a href="{{- . -}}">Newer</a>
   {{- end -}}
 {{- end -}}
 

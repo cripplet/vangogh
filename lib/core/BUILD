@@ -65,5 +65,6 @@ go_library(
         ":render_util",
         ":type",
         "//lib/api:api",
+        "//lib/api/proto:base_go_proto",
     ],
 )

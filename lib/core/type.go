@@ -10,7 +10,12 @@ type ViewPostData struct {
   Content vpb.Post
 }
 
+type ViewPostListDataContent struct {
+  Posts []vpb.Post
+  NextPageLink string
+  PrevPageLink string
+}
 type ViewPostListData struct {
   Site vpb.Site
-  Content []vpb.Post
+  Content ViewPostListDataContent
 }

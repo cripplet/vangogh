@@ -112,8 +112,7 @@ func generateAllPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
 
   sort.Slice(posts, sortPostsReverseChronologicalOrder(posts))
 
-  return vcrp.RenderPostList(
-      vct.ViewPostListData{Site: pb, Content: posts}, "/")
+  return vcrp.RenderPostList(pb, posts, "/")
 }
 
 func generatePhotoPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
@@ -138,6 +137,5 @@ func generatePhotoPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
 
   sort.Slice(posts, sortPostsReverseChronologicalOrder(posts))
 
-  return vcrp.RenderPostList(
-      vct.ViewPostListData{Site: pb, Content: posts}, "/photography/")
+  return vcrp.RenderPostList(pb, posts, "/photography/")
 }
