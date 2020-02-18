@@ -8,22 +8,46 @@
   {{- end -}}
 
   <div class="row"><div class="col s12">
+    <ul class="pagination">
+      {{- with .LastPageLink -}}
+        <li class="waves-effect">
+          <a href="{{- . -}}"><i class="fas fa-angle-double-left"></i></a>
+        </li>
+      {{- else -}}
+        <li class="disabled">
+          <a href="#!"><i class="fas fa-angle-double-left"></i></a>
+        </li>
+      {{- end -}}
 
-    {{- with .LastPageLink -}}
-      <a href="{{- . -}}"><i class="fas fa-angle-double-left icon"></i></a>
-    {{- end -}}
+      {{- with .NextPageLink -}}
+        <li class="waves-effect">
+          <a href="{{- . -}}"><i class="fas fa-angle-left"></i></a>
+        </li>
+      {{- else -}}
+        <li class="disabled">
+          <a href="#!"><i class="fas fa-angle-left"></i></a>
+        </li>
+      {{- end -}}
 
-    {{- with .NextPageLink -}}
-      <a href="{{- . -}}"><i class="fas fa-angle-left icon"></i></a>
-    {{- end -}}
+      {{- with .PrevPageLink -}}
+        <li class="waves-effect">
+          <a href="{{- . -}}"><i class="fas fa-angle-right"></i></a>
+        </li>
+      {{- else -}}
+        <li class="disabled">
+          <a href="#!"><i class="fas fa-angle-right"></i></a>
+        </li>
+      {{- end -}}
 
-    {{- with .PrevPageLink -}}
-      <a href="{{- . -}}"><i class="fas fa-angle-right icon"></i></a>
-    {{- end -}}
-
-    {{- with .FirstPageLink -}}
-      <a href="{{- . -}}"><i class="fas fa-angle-double-right icon"></i></a>
-    {{- end -}}
+      {{- with .FirstPageLink -}}
+        <li class="waves-effect">
+          <a href="{{- . -}}"><i class="fas fa-angle-double-right"></i></a>
+        </li>
+      {{- else -}}
+        <li class="disabled">
+          <a href="#!"><i class="fas fa-angle-double-right"></i></a>
+        </li>
+      {{- end -}}
 
   </div></div>
 {{- end -}}
