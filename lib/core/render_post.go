@@ -1,7 +1,6 @@
 package vangogh_core_render_post
 
 import (
-  "fmt"
   "html/template"
   "math"
   "strings"
@@ -15,11 +14,6 @@ import (
 func getPageNumber(sliceFloor int, batchSize int) int {
   return sliceFloor / batchSize + 1
 }
-
-func formatPostPaginateURL(pathPrefix string, pageNumber int) string {
-  return pathPrefix + fmt.Sprintf("page/%d/", pageNumber)
-}
-
 
 // Function RenderPostList will generate the paginated index of a list of
 // vangogh_api_proto.Posts.
@@ -50,28 +44,16 @@ func RenderPostList(
     sliceFloor := p * batchSize
     sliceCeil := int(math.Min(float64(sliceFloor + batchSize), float64(len(ps))))
 
-    firstPageLink := ""
-    lastPageLink := ""
-    nextPageLink := ""
-    prevPageLink := ""
-    if pageNum != 1 {
-      firstPageLink = formatPostPaginateURL(pathPrefix, 1)
-      prevPageLink = formatPostPaginateURL(pathPrefix, pageNum - 1)
-    }
-    if pageNum < maxPageNum {
-      lastPageLink = formatPostPaginateURL(pathPrefix, maxPageNum)
-      nextPageLink = formatPostPaginateURL(pathPrefix, pageNum + 1)
-    }
-
     b := strings.Builder{}
     err = t.ExecuteTemplate(&b, "page", vct.ViewPostListData{
       Site: pb,
       Content: vct.ViewPostListDataContent{
         Posts: ps[sliceFloor:sliceCeil],
-        FirstPageLink: firstPageLink,
-        LastPageLink: lastPageLink,
-        NextPageLink: nextPageLink,
-        PrevPageLink: prevPageLink,
+        PageInfo: vct.PaginatePageInfo{
+            TotalPages: maxPageNum,
+            CurrentPage: pageNum,
+            PathPrefix: pathPrefix,
+        },
       },
     })
     if err != nil {
@@ -79,7 +61,7 @@ func RenderPostList(
     }
 
     pages = append(pages, vapi.RoutingTableRow{
-        Path: formatPostPaginateURL(pathPrefix, pageNum),
+        Path: vcru.FormatPaginateURL(pathPrefix, pageNum),
         Reader: strings.NewReader(b.String()),
     })
     // First page of an index shouldn't need to explicitly specify the page number.

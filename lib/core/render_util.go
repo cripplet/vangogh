@@ -23,7 +23,22 @@ func GetVangoghCoreTemplateFuncMap() template.FuncMap {
   return template.FuncMap{
       "deserialize": UnmarshalExtension,
       "formatTime": FormatTime,
+      "formatPaginate": FormatPaginateURL,
+      "addInt": AddInt,
+      "subInt": SubInt,
   }
+}
+
+func FormatPaginateURL(pathPrefix string, pageNumber int) string {
+  return pathPrefix + fmt.Sprintf("page/%d/", pageNumber)
+}
+
+func AddInt(i, j int) int {
+  return i + j
+}
+
+func SubInt(i, j int) int {
+  return i - j
 }
 
 // Function UnmarshalExtension is used in the templates as a quick way

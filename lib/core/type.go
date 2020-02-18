@@ -10,12 +10,14 @@ type ViewPostData struct {
   Content vpb.Post
 }
 
+type PaginatePageInfo struct {
+  TotalPages int
+  CurrentPage int
+  PathPrefix string
+}
 type ViewPostListDataContent struct {
   Posts []vpb.Post
-  FirstPageLink string
-  LastPageLink string
-  NextPageLink string
-  PrevPageLink string
+  PageInfo PaginatePageInfo
 }
 type ViewPostListData struct {
   Site vpb.Site

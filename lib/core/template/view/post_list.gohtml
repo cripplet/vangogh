@@ -7,48 +7,60 @@
     {{- template "post" . -}}
   {{- end -}}
 
-  <div class="row"><div class="col s12">
-    <ul class="pagination">
-      {{- with .LastPageLink -}}
-        <li class="waves-effect">
-          <a href="{{- . -}}"><i class="fas fa-angle-double-left"></i></a>
-        </li>
-      {{- else -}}
-        <li class="disabled">
-          <a href="#!"><i class="fas fa-angle-double-left"></i></a>
-        </li>
-      {{- end -}}
+  <!-- Pagination navbar rendering logic. -->
+  <div class="row">
+    <div class="col s12">
+      <ul class="pagination">
+        {{- with .PageInfo -}}
+          {{- if ne .CurrentPage .TotalPages -}}
+            <li class="waves-effect">
+              <a href="{{- formatPaginate .PathPrefix .TotalPages -}}">
+                <i class="fas fa-angle-double-left"></i>
+              </a>
+            </li>
+            <li class="waves-effect">
+              <a href="{{- formatPaginate .PathPrefix (addInt .CurrentPage 1) -}}">
+                <i class="fas fa-angle-left"></i>
+              </a>
+            </li>
+          {{- else -}}
+            <li class="disabled">
+              <a href="#!">
+                <i class="fas fa-angle-double-left"></i>
+              </a>
+            </li>
+            <li class="disabled">
+              <a href="#!">
+                <i class="fas fa-angle-left"></i>
+              </a>
+            </li>
+          {{- end -}}
 
-      {{- with .NextPageLink -}}
-        <li class="waves-effect">
-          <a href="{{- . -}}"><i class="fas fa-angle-left"></i></a>
-        </li>
-      {{- else -}}
-        <li class="disabled">
-          <a href="#!"><i class="fas fa-angle-left"></i></a>
-        </li>
-      {{- end -}}
-
-      {{- with .PrevPageLink -}}
-        <li class="waves-effect">
-          <a href="{{- . -}}"><i class="fas fa-angle-right"></i></a>
-        </li>
-      {{- else -}}
-        <li class="disabled">
-          <a href="#!"><i class="fas fa-angle-right"></i></a>
-        </li>
-      {{- end -}}
-
-      {{- with .FirstPageLink -}}
-        <li class="waves-effect">
-          <a href="{{- . -}}"><i class="fas fa-angle-double-right"></i></a>
-        </li>
-      {{- else -}}
-        <li class="disabled">
-          <a href="#!"><i class="fas fa-angle-double-right"></i></a>
-        </li>
-      {{- end -}}
-
-  </div></div>
+          {{- if ne .CurrentPage 1 -}}
+            <li class="waves-effect">
+              <a href="{{- formatPaginate .PathPrefix (subInt .CurrentPage 1) -}}">
+                <i class="fas fa-angle-right"></i>
+              </a>
+            </li>
+            <li class="waves-effect">
+              <a href="{{- formatPaginate .PathPrefix 1 -}}">
+                <i class="fas fa-angle-double-right"></i>
+              </a>
+            </li>
+          {{- else -}}
+            <li class="disabled">
+              <a href="#!">
+                <i class="fas fa-angle-right"></i>
+              </a>
+            </li>
+            <li class="disabled">
+              <a href="#!">
+                <i class="fas fa-angle-double-right"></i>
+              </a>
+            </li>
+          {{- end -}}
+        {{- end -}}
+      </ul>
+    </div>
+  </div>
 {{- end -}}
-
