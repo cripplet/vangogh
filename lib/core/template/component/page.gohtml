@@ -89,19 +89,43 @@
       -webkit-transition: opacity .5s ease-in-out;
     }
 
-    /**
-     * TODO(minkezhang): Find a better color theme for links.
-     */
-    footer a {
+    body {
+      color: #212121;  // grey darken-4
+    }
+    .page-footer {
+      color: #212121;  // grey darken-4
+    }
+    .page-footer .footer-copyright {
+      color: #eeeeee;  // grey lighten-3
+    }
+    .post-title a {
+      color: #212121;  // grey darken-4
+    }
+    .post-byline {
+      color: #616161;  // grey darken-2
+      font-variant: small-caps;
+    }
+    .post-tag:not(:last-child):after {
+      content: ", ";
+    }
+
+    a {
       transition: color .1s ease-in-out;
       -moz-transition: color .1s ease-in-out;
       -webkit-transition: color .1s ease-in-out;
-      color: #222;
+      color: #e91e63;  // pink
     }
-    footer a:hover {
-      color: #ccc;
+    a:hover {
+      color: #f06292;  // pink lighten-2
     }
 
+    .page-footer {
+      background-color: #e0e0e0;  // grey lighten-2
+    }
+    .page-footer .footer-copyright {
+      background-color: #bdbdbd;  // grey lighten-1
+    }
+    
     footer .social-media-ul {
       display: block;
     }

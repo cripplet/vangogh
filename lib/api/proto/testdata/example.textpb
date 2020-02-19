@@ -15,6 +15,10 @@ posts: <
         # Jan. 1, 2000
         seconds: 946684800
     >
+    modified_timestamp: <
+        # Jan. 2, 2000
+        seconds: 946771200
+    >
     title: "Some Cool Title"
     authors: "Bob Loblaw"
     tags: "intro"

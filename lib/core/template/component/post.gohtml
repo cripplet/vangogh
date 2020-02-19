@@ -29,41 +29,53 @@
       {{- if (or (or (or $postMetadata.Camera $postMetadata.Lens) $postMetadata.Filters) $postMetadata.Film) -}}
         <div class="row">
           <div class="col s12"><i class="fas fa-camera icon"></i>
-            {{- with $postMetadata.Camera -}}{{- . -}}{{- end -}}
-            {{- with $postMetadata.Lens -}}{{- . -}}{{- end -}}
+            {{- with $postMetadata.Camera -}}<span class="post-tag">{{- . -}}</span>{{- end -}}
+            {{- with $postMetadata.Lens -}}<span class="post-tag">{{- . -}}</span>{{- end -}}
             {{- with $postMetadata.Filters -}}
               {{- range . -}}
-                {{- . -}}
+                <span class="post-tag">{{- . -}}</span>
               {{- end -}}
             {{- end -}}
-            {{- with $postMetadata.Film -}}{{- . -}}{{- end -}}
+            {{- with $postMetadata.Film -}}<span class="post-tag">{{- . -}}</span>{{- end -}}
           </div>
         </div>
       {{- end -}}
 
       {{- with $postMetadata.Location -}}
         <div class="row">
-          <div class="col s12"><i class="fas fa-map-marker-alt icon"></i>{{- . -}}</div>
+          <div class="col s12"><i class="fas fa-map-marker-alt icon"></i><span class="post-tag">{{- . -}}</span></div>
         </div>
       {{- end -}}
 
     {{- end -}}
 
+    {{- $postURL := (formatPostPath .) -}}
     {{- with .Metadata.Title -}}
       <div class="row">
       <div class="col s12">
-      <h3>{{- . -}}</h3>
+        <h3>
+          <span class="post-title">
+            <a href="{{- $postURL -}}">{{- . -}}</a>
+          </span>
+        </h3>
       </div>
       </div>
     {{- end -}}
 
-    {{- with .Metadata.PublishTimestamp -}}
-      <div class="row">
-      <div class="col s12">
-        {{- formatTime "January 02, 2006 15:04 MST" . -}}
-      </div>
-      </div>
-    {{- end -}}
+    <div class="row">
+      {{- with .Metadata.PublishTimestamp -}}
+        <div class="col s12">
+          <span class="post-byline">{{- formatTime "January 02, 2006 15:04 MST" . -}}</span>
+        </div>
+      {{- end -}}
+
+      {{- with .Metadata.ModifiedTimestamp -}}
+        <div class="col s12">
+          <span class="post-byline">Edited</span>
+          <span class="post-byline">{{- formatTime "January 02, 2006" . -}}</span>
+        </div>
+      {{- end -}}
+    </div>
 
     {{- with .Data.Text -}}
       <div class="row">
@@ -75,9 +87,7 @@
       <div class="row">
         <div class="col s12"><i class="fas fa-tags icon"></i>
           {{- range . -}}
-            <span class="post-tag">
-                <a href="{{- formatTagPath . -}}">{{- . -}}</a>
-            </span>
+            <span class="post-tag"><a href="{{- formatTagPath . -}}">{{- . -}}</a></span>
           {{- end -}}
         </div>
       </div>
