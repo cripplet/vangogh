@@ -29,6 +29,8 @@ func GetVangoghCoreTemplateFuncMap() template.FuncMap {
       "addInt": AddInt,
       "subInt": SubInt,
       "getSocialMediaIconClass": GetSocialMediaIconClass,
+      "formatTagPath": FormatTagPath,
+      "formatPostPath": FormatPostPath,
   }
 }
 
@@ -86,7 +88,7 @@ func FormatTime(f string, pb timestamp.Timestamp) (string, error) {
   return t.Format(f), nil
 }
 
-func FormatURLSafeText(s string) (string, error) {
+func formatURLSafeText(s string) (string, error) {
   r, err := regexp.Compile(illegalTitleCharRegex)
   if err != nil {
     return "", err
@@ -98,13 +100,22 @@ func FormatURLSafeText(s string) (string, error) {
               strings.ToLower(s), " ", "-"), "")), nil
 }
 
+func FormatTagPath(t string) (string, error) {
+  p, err := formatURLSafeText(t)
+  if err != nil {
+    return "", err
+  }
+
+  return fmt.Sprintf("/tags/%s/", p), nil
+}
+
 func FormatPostPath(p vpb.Post) (string, error) {
   t , err := FormatTime(postPathTimeFormat, *p.Metadata.PublishTimestamp)
   if err != nil {
     return "", err
   }
 
-  pt, err := FormatURLSafeText(p.Metadata.Title)
+  pt, err := formatURLSafeText(p.Metadata.Title)
   if err != nil {
     return "", err
   }

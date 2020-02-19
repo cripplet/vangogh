@@ -124,7 +124,13 @@ func generateTagPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
 
   for t, ps := range tagLookup {
     sort.Slice(ps, sortPostsReverseChronologicalOrder(ps))
-    psrt, err := vcrp.RenderPostList(pb, ps, fmt.Sprintf("/tags/%s/", t))
+
+    tp, err := vcru.FormatTagPath(t)
+    if err != nil {
+      return []vapi.RoutingTableRow{}, err
+    }
+
+    psrt, err := vcrp.RenderPostList(pb, ps, tp)
     if err != nil {
       return []vapi.RoutingTableRow{}, err
     }
