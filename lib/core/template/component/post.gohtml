@@ -75,7 +75,9 @@
       <div class="row">
         <div class="col s12"><i class="fas fa-tags icon"></i>
           {{- range . -}}
-            {{- . -}}
+            <span class="post-tag">
+                <a href="{{- formatTagPath . -}}">{{- . -}}</a>
+            </span>
           {{- end -}}
         </div>
       </div>
