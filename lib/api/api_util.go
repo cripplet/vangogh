@@ -7,6 +7,7 @@ import (
   "bytes"
   "fmt"
   "net/http"
+  "sort"
 
   "github.com/cripplet/vangogh/api"
   vpb "github.com/cripplet/vangogh/api/proto"
@@ -49,12 +50,19 @@ func CreateVangoghHTTPServer(
     return http.Server{}, err
   }
 
+  paths := []string{}
+
   for p, reader := range m {
-    fmt.Println(p)
+    paths = append(paths, p)
 
     b := bytes.Buffer{}
     b.ReadFrom(reader)
     routes[p] = b.Bytes()
+  }
+
+  sort.Strings(paths)
+  for _, p := range paths {
+    fmt.Println(p)
   }
 
   mux := http.NewServeMux()

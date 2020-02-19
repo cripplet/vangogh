@@ -77,6 +77,12 @@ func generatePages(pb vpb.Site) (vapi.RoutingTable, error) {
   }
   rs = append(rs, trs...)
 
+  trs, err = generateTagPostList(pb)
+  if err != nil {
+    return nil, err
+  }
+  rs = append(rs, trs...)
+
   if rt.AddRoutes(rs) != nil {
     return nil, err
   }
@@ -102,6 +108,29 @@ func sortPostsReverseChronologicalOrder(ps []vpb.Post) func(i, j int) bool {
 
     return it.After(jt)
   }
+}
+
+func generateTagPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {
+  rt := []vapi.RoutingTableRow{}
+
+  tagLookup := map[string][]vpb.Post{}
+  for _, p := range pb.Posts {
+    if p.Metadata != nil {
+      for _, t := range p.Metadata.Tags {
+        tagLookup[t] = append(tagLookup[t], *p)
+      }
+    }
+  }
+
+  for t, ps := range tagLookup {
+    sort.Slice(ps, sortPostsReverseChronologicalOrder(ps))
+    psrt, err := vcrp.RenderPostList(pb, ps, fmt.Sprintf("/tags/%s/", t))
+    if err != nil {
+      return []vapi.RoutingTableRow{}, err
+    }
+    rt = append(rt, psrt...)
+  }
+  return rt, nil
 }
 
 func generateAllPostList(pb vpb.Site) ([]vapi.RoutingTableRow, error) {

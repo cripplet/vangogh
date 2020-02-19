@@ -86,24 +86,30 @@ func FormatTime(f string, pb timestamp.Timestamp) (string, error) {
   return t.Format(f), nil
 }
 
-func FormatPostPath(p vpb.Post) (string, error) {
+func FormatURLSafeText(s string) (string, error) {
   r, err := regexp.Compile(illegalTitleCharRegex)
   if err != nil {
     return "", err
   }
 
+  return url.QueryEscape(
+      r.ReplaceAllString(
+          strings.ReplaceAll(
+              strings.ToLower(s), " ", "-"), "")), nil
+}
+
+func FormatPostPath(p vpb.Post) (string, error) {
   t , err := FormatTime(postPathTimeFormat, *p.Metadata.PublishTimestamp)
   if err != nil {
     return "", err
   }
 
-  return fmt.Sprintf(
-      "/posts/%s/%s/",
-      t,
-      url.QueryEscape(
-          r.ReplaceAllString(
-              strings.ReplaceAll(
-                  strings.ToLower(p.Metadata.Title), " ", "-"), ""))), nil
+  pt, err := FormatURLSafeText(p.Metadata.Title)
+  if err != nil {
+    return "", err
+  }
+
+  return fmt.Sprintf("/posts/%s/%s/", t, pt), nil
 }
 
 func GetComponentFiles() ([]string, error) {
