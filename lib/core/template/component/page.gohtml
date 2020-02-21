@@ -14,8 +14,6 @@
   Placeholder templates.
   TODO(minkezhang): Implement these.
  -->
-{{- define "header" -}}<header></header>{{- end -}}
-
 {{- define "body" -}}
   <main>
     <div class="container">{{- template "content" .Content -}}</div>
@@ -96,15 +94,17 @@
       color: #212121;  // grey darken-4
     }
     .page-footer .footer-copyright {
-      color: #eeeeee;  // grey lighten-3
+      color: #212121;  // grey darken-4
     }
-    .post-title a {
+    header a, .post-title a {
       color: #212121;  // grey darken-4
     }
     .post-byline {
       color: #616161;  // grey darken-2
       font-variant: small-caps;
     }
+
+    /* Ensure tags are delimited in some manner. */
     .post-tag:not(:last-child):after {
       content: ", ";
     }
@@ -122,8 +122,12 @@
     .page-footer {
       background-color: #e0e0e0;  // grey lighten-2
     }
-    .page-footer .footer-copyright {
+    .page-footer h6 {
+      font-variant: small-caps;
+    }
+    footer .page-footer .footer-copyright {
       background-color: #bdbdbd;  // grey lighten-1
+      text-align: center;
     }
     
     footer .social-media-ul {
@@ -132,6 +136,21 @@
     footer .social-media-ul li {
       display: inline-block;
       margin-right: 8px;
+    }
+
+    header .navbar-wrapper {
+      background-color: #e0e0e0;  // grey lighten-2
+    }
+    header nav {
+      background: none;
+      box-shadow: none;
+      height: auto;
+    }
+    header nav .row {
+      margin-bottom: 0;
+    }
+    header .title-card {
+      background-color: #bdbdbd;  // grey lighten-1
     }
   </style>
 

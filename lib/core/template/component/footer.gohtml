@@ -11,7 +11,7 @@
             TODO(minkezhang): Fill out with relevant data when tag
             rendering implemented.
            -->
-          <h4>Top Tags</h4>
+          <h6>Top Tags</h6>
           <ul>
             <li><a href="http://google.com">tag 1</a></li>
             <li><a href="http://google.com">tag 2</a></li>
@@ -24,7 +24,7 @@
           {{- with .Site.Metadata.Extension -}}
             {{- $siteMetadata := deserialize .Extension -}}
 
-            <h4>Contact</h4>
+            <h6>Contact</h6>
             <ul class="social-media-ul">
               {{- range $siteMetadata.SocialMedia -}}
                 <li>
