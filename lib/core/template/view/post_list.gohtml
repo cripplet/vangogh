@@ -8,59 +8,35 @@
   {{- end -}}
 
   <!-- Pagination navbar rendering logic. -->
-  <div class="row">
-    <div class="col s12">
-      <ul class="pagination">
-        {{- with .PageInfo -}}
-          {{- if ne .CurrentPage .TotalPages -}}
-            <li class="waves-effect">
-              <a href="{{- formatPaginate .PathPrefix .TotalPages -}}">
-                <i class="fas fa-angle-double-left"></i>
-              </a>
-            </li>
-            <li class="waves-effect">
-              <a href="{{- formatPaginate .PathPrefix (addInt .CurrentPage 1) -}}">
-                <i class="fas fa-angle-left"></i>
-              </a>
-            </li>
-          {{- else -}}
-            <li class="disabled">
-              <a href="#!">
-                <i class="fas fa-angle-double-left"></i>
-              </a>
-            </li>
-            <li class="disabled">
-              <a href="#!">
-                <i class="fas fa-angle-left"></i>
-              </a>
-            </li>
-          {{- end -}}
-
-          {{- if ne .CurrentPage 1 -}}
-            <li class="waves-effect">
-              <a href="{{- formatPaginate .PathPrefix (subInt .CurrentPage 1) -}}">
-                <i class="fas fa-angle-right"></i>
-              </a>
-            </li>
-            <li class="waves-effect">
-              <a href="{{- formatPaginate .PathPrefix 1 -}}">
-                <i class="fas fa-angle-double-right"></i>
-              </a>
-            </li>
-          {{- else -}}
-            <li class="disabled">
-              <a href="#!">
-                <i class="fas fa-angle-right"></i>
-              </a>
-            </li>
-            <li class="disabled">
-              <a href="#!">
-                <i class="fas fa-angle-double-right"></i>
-              </a>
-            </li>
-          {{- end -}}
+  <div class="post-list-pagination">
+    <div class="row">
+      {{- with .PageInfo -}}
+        {{- if ne .CurrentPage .TotalPages -}}
+          <div class="col s1">
+            <a class="btn-flat" href="{{- formatPaginate .PathPrefix .TotalPages -}}">
+              <i class="fas fa-angle-double-left"></i>
+            </a>
+          </div>
+          <div class="col s1">
+            <a class="btn-flat" href="{{- formatPaginate .PathPrefix (addInt .CurrentPage 1) -}}">
+              <i class="fas fa-angle-left"></i>
+            </a>
+          </div>
         {{- end -}}
-      </ul>
+
+        {{- if ne .CurrentPage 1 -}}
+          <div class="col s1">
+            <a class="btn-flat"  href="{{- formatPaginate .PathPrefix (subInt .CurrentPage 1) -}}">
+              <i class="fas fa-angle-right"></i>
+            </a>
+          </div>
+          <div class="col s1">
+            <a class="btn-flat" href="{{- formatPaginate .PathPrefix 1 -}}">
+              <i class="fas fa-angle-double-right"></i>
+            </a>
+          </div>
+        {{- end -}}
+      {{- end -}}
     </div>
   </div>
 {{- end -}}
