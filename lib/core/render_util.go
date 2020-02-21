@@ -4,13 +4,16 @@ import (
   "errors"
   "fmt"
   "html/template"
+  "math"
   "net/url"
   "path/filepath"
   "regexp"
+  "sort"
   "strings"
 
   vpb "github.com/cripplet/vangogh/api/proto"
   vpbc "github.com/cripplet/vangogh/core/proto"
+  vpbt "github.com/cripplet/vangogh/core/type"
   "github.com/golang/protobuf/proto"
   "github.com/golang/protobuf/ptypes"
   "github.com/golang/protobuf/ptypes/any"
@@ -31,6 +34,7 @@ func GetVangoghCoreTemplateFuncMap() template.FuncMap {
       "getSocialMediaIconClass": GetSocialMediaIconClass,
       "formatTagPath": FormatTagPath,
       "formatPostPath": FormatPostPath,
+      "getTagWeights": GetTopTagWeights,
   }
 }
 
@@ -130,4 +134,34 @@ func GetComponentFiles() ([]string, error) {
   }
 
   return fs, nil
+}
+
+func GetTopTagWeights(pb vpb.Site, n int) []vpbt.TagWeight {
+  tl := map[string]*vpbt.TagWeight{}
+  var max_n_posts float64 = 0
+
+  for _, p := range pb.Posts {
+    for _, t := range p.Metadata.Tags {
+      if _, ok := tl[t]; !ok {
+        tl[t] = &vpbt.TagWeight{
+            Tag: t,
+            NPosts: 1,
+        }
+        max_n_posts = math.Max(max_n_posts, 1)
+      } else {
+        tl[t].NPosts += 1
+        max_n_posts = math.Max(max_n_posts, float64(tl[t].NPosts))
+      }
+    }
+  }
+
+  rt := []vpbt.TagWeight{}
+  for _, tw := range tl {
+    rt = append(rt, *tw)
+  }
+  sort.Slice(rt, func(i, j int) bool {
+    return rt[i].NPosts > rt[j].NPosts
+  })
+
+  return rt[0:int(math.Min(float64(n), float64(len(rt))))]
 }

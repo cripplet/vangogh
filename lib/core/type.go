@@ -10,6 +10,11 @@ type ViewPostData struct {
   Content vpb.Post
 }
 
+type TagWeight struct {
+  Tag string
+  NPosts int
+}
+
 type PaginatePageInfo struct {
   TotalPages int
   CurrentPage int
